@@ -57,6 +57,7 @@ class RTopic(RBase[Topic]):
                 Topic.id == topic_id,
                 Topic.is_active.is_(True),
                 or_(ItemGroup.is_closed.is_(False), ItemGroup.is_closed.is_(None)),
+                or_(Item.modified_by.is_(None)),
                 or_(
                     Item.created_at.between(
                         func.current_date(),

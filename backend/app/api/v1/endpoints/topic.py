@@ -24,6 +24,16 @@ async def get_topics(*,
     objects = await services.topic.get_topics_filter(db=db, filters=filters)
     return objects
 
+@router.get("/{topic_id}",
+            status_code=200,
+            response_model=TopicInDB)
+async def get_topic(*, topic_id: int, db: AsyncSession = Depends(get_db)) -> TopicInDB:
+    obj = await services.topic.get_by_id(db=db, id=topic_id)
+    if not obj:
+        raise HTTPException(
+            status_code=404, detail=f"Услуга не найдена."
+        )
+    return obj
 
 @router.get("/line/{topic_id}",
             status_code=200, )

@@ -9,6 +9,7 @@ from app.models.topic import Topic
 class TopicFilter(Filter):
     name_ru__ilike: Optional[str] = Field(alias='name_ru__like', default=None, )
     is_active: Optional[bool] = Field(default=True)
+
     # is_deleted: Optional[bool] = Field(default=False)
 
     class Constants(Filter.Constants):
@@ -25,4 +26,14 @@ class TopicFilter(Filter):
         return query
 
     class Config:
-            populate_by_name = True
+        populate_by_name = True
+
+
+class TopicItemsFilter(Filter):
+    id: Optional[int] = Field(alias='topic_id', default=None, )
+    is_active: bool = True
+
+    class Constants(Filter.Constants):
+        model = Topic
+    class Config:
+        populate_by_name = True

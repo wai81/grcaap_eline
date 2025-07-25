@@ -20,9 +20,9 @@ async def get_items_status_type(*,
     return objects
 
 
-@router.get("/{id}",
+@router.get("/{status_id}",
             status_code=200,
             response_model=ItemStatusTypeInDB)
-async def get_status_type(id: int, db: AsyncSession = Depends(get_db)):
-    item = await services.item_status_type.get_by_id(id=id, db=db)
+async def get_status_type(*, status_id: int, db: AsyncSession = Depends(get_db)):
+    item = await services.item_status_type.get_by_id(id=status_id, db=db)
     return item

@@ -8,7 +8,7 @@ SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://" \
 
 engine = create_async_engine(SQLALCHEMY_DATABASE_URL,
                              future=True,
-                             # echo=True,
+                             echo=True,
                              )
 
 SessionLocalAsync = sessionmaker(expire_on_commit=False, class_=AsyncSession, bind=engine)

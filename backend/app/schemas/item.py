@@ -2,7 +2,7 @@ from pydantic import BaseModel, constr
 from typing import Optional
 from datetime import datetime
 
-
+from app.models.item_staus_type import ItemStatusType
 from app.schemas.topic import TopicInDB
 
 
@@ -40,3 +40,18 @@ class ItemInDB(ItemBase):
 
     class ConfigDict:
         from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
+
+
+class ItemsStatus(BaseModel):
+    id: int
+    generated_number: constr(max_length=128)
+    item_created_at: datetime
+    topic_id: int
+    status_updated_at: datetime
+    item_status_id: int
+    modified_by: Optional[constr(max_length=128)]
+    is_closed: bool
+
+    class ConfigDict:
+        from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
+

@@ -1,27 +1,5 @@
 version: '3.8'
 services:
-  handler_1c:
-    container_name: handler_1c-app
-    build:
-      context: handler_1c
-      dockerfile: Dockerfile
-    command: bash -c 'uvicorn app.main:app --workers 5 --host 0.0.0.0'
-    # volumes:
-    #   - ./grcaap_order_queue (new)/handler_1c:/app
-    ports:
-      - "8000:8000"
-    environment:
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_DATABASE: ${DB_DATABASE}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      CORS: ${CORS}
-    restart: always
-    # depends_on:
-    #   - db_line_order
-    networks:
-      - default
 
   backend:
     container_name: backend-app
@@ -30,7 +8,7 @@ services:
       dockerfile: Dockerfile
     command: bash -c 'uvicorn app.main:app --workers 5 --host 0.0.0.0'
     # volumes:
-    #   - ./grcaap_order_queue (new)/backend:/app
+    #   - ./grcaap_eline/backend:/app
     environment:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
@@ -38,47 +16,15 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       CORS: ${CORS}
-    # ports:
-    #   - "7979:8000"
-#      - "8000"
-#   depends_on:
-#      - db_line_order
     restart: always
     networks:
       - default
-  
-  # db_line_order:
-  #  image: postgres:15.2
-  #  restart: always
-  #  ports:
-  #    - "${DB_PORT}:5432"
-  #  environment:
-  #    POSTGRES_USER: ${DB_USERNAME}
-  #    POSTGRES_PASSWORD: ${DB_PASSWORD}
-  #    POSTGRES_DB: ${DB_DATABASE}
-  #    TZ: "Europe/Minsk"
-  #    PTZ: "Europe/Minsk"
-  #    volumes:
-  #     - postgres_data:/var/lib/postgresql/data:cached
-
-#  pgadmin:
-#    image: dpage/pgadmin4
-#    restart: always
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
-#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
-#    ports:
-#      - "5050:80"
-    # volumes:
-    #   - pgadmin_data:/var/lib/pgadmin
 
   frontend:
     container_name: frontend-app
     build:
       context: frontend
       dockerfile: Dockerfile
-    # volumes:
-    #   - ./grcaap_order_queue (new)/frontend:/app
     environment:
       VITE_APP_API_URL: ${API_URL}
     ports:
@@ -107,7 +53,7 @@ services:
 
 volumes:
   backend: {}
-  handler_1c: {}
+
 
 # networks:
 #   default:

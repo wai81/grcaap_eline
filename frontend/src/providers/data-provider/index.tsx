@@ -1,7 +1,8 @@
 import type { DataProvider } from "@refinedev/core";
 import { generateFilter, generateSort } from "./utils";
-
+ 
 const API_URL = import.meta.env.VITE_API_URL
+//console.log("api_url " +API_URL)
 
 const fetcher = async (url: string, options?: RequestInit) => {
   const token = localStorage.getItem("my_access_token");

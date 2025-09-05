@@ -1,37 +1,35 @@
-# This Dockerfile uses `serve` npm package to serve the static files with node process.
-# You can find the Dockerfile for nginx in the following link:
-# https://github.com/refinedev/dockerfiles/blob/main/vite/Dockerfile.nginx
-FROM refinedev/node:18 AS base
+# Multi-stage build для лучшей оптимизации
+FROM node:18-alpine AS builder
 
-FROM base as deps
+WORKDIR /app
 
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+# Копируем package files
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production
 
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
-FROM base as builder
-
-ENV NODE_ENV production
-
-COPY --from=deps /app/refine/node_modules ./node_modules
-
+# Копируем исходный код и собираем
 COPY . .
-
 RUN npm run build
 
-FROM base as runner
+# Финальный образ
+FROM node:18-alpine AS production
 
-ENV NODE_ENV production
+WORKDIR /app
 
+# Устанавливаем serve
 RUN npm install -g serve
 
-COPY --from=builder /app/refine/dist ./
+# Копируем собранное приложение
+COPY --from=builder /app/dist ./dist
 
-USER refine
+# Создаем non-root пользователя
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
-CMD ["serve"]
+# Меняем владельца файлов
+RUN chown -R nextjs:nodejs /app
+USER nextjs
+
+EXPOSE 3000
+
+CMD ["serve", "dist", "-s", "-l", "3000"]

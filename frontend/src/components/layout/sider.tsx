@@ -4,7 +4,7 @@ import {
   useLogout,
   useTitle,
   CanAccess,
-  type ITreeMenu,
+  //type ITreeMenu,
   useIsExistAuthentication,
   useRouterContext,
   useMenu,
@@ -35,6 +35,7 @@ import {
 } from "antd";
 import type { RefineThemedLayoutV2SiderProps } from "@refinedev/antd";
 import type { CSSProperties } from "react";
+import { TreeMenuItem } from "@refinedev/core/dist/hooks/menu/useMenu";
 
 const drawerButtonStyles: CSSProperties = {
   borderStartStartRadius: 0,
@@ -81,8 +82,10 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
 
   const RenderToTitle = TitleFromProps ?? TitleFromContext ?? ThemedTitleV2;
 
-  const renderTreeView = (tree: ITreeMenu[], selectedKey?: string) => {
-    return tree.map((item: ITreeMenu) => {
+  //const renderTreeView = (tree: ITreeMenu[], selectedKey?: string) => {
+  const renderTreeView = (tree: TreeMenuItem[], selectedKey?: string) => {
+    //return tree.map((item: ITreeMenu) => {
+    return tree.map((item: TreeMenuItem) => {
       const {
         icon,
         label,
@@ -118,7 +121,7 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
       const isSelected = key === selectedKey;
       const isRoute = !(
         pickNotDeprecated(meta?.parent, options?.parent, parentName) !==
-          undefined && children.length === 0
+        undefined && children.length === 0
       );
 
       const linkStyle: React.CSSProperties =

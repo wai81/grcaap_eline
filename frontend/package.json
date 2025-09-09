@@ -18,13 +18,13 @@
     "antd": "^5.17.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router": "^7.0.2",
+    "react-router": "^7.8.2",
     "react-slot-counter": "^3.3.1"
   },
   "devDependencies": {
     "@types/node": "^18.16.2",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vitejs/plugin-react": "^4.0.0",

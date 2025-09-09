@@ -3,15 +3,22 @@ import {
   pickNotDeprecated,
   useActiveAuthProvider,
   useGetIdentity,
+  useGetLocale,
+  useSetLocale,
 } from "@refinedev/core";
-import { Layout as AntdLayout, Typography, Avatar, Space, theme, Switch } from "antd";
+import { Layout as AntdLayout, Typography, Avatar, Space, theme, Switch, Menu, Dropdown, Button } from "antd";
 import type { RefineThemedLayoutV2HeaderProps } from "@refinedev/antd";
 import { ColorModeContext } from "../../contexts/color-mode";
+import { useTranslation } from "react-i18next";
+import { DownOutlined } from "@ant-design/icons";
 
 export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   sticky,
 }) => {
   const { token } = theme.useToken();
+  const { i18n } = useTranslation();
+  const changeLocale = useSetLocale();
+  const locale = useGetLocale();
   const { mode, setMode } = useContext(ColorModeContext);
   const authProvider = useActiveAuthProvider();
   const { data: user } = useGetIdentity({
@@ -39,8 +46,75 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
     headerStyles.zIndex = 1;
   }
 
+  const currentLocale = locale();
+  const menuLang = (
+    <Menu selectedKeys={currentLocale ? [currentLocale] : []}>
+      {[...(i18n.languages || [])].sort().map((lang: string) => (
+        <Menu.Item
+          key={lang}
+          onClick={() => changeLocale(lang)}
+          icon={
+            <span style={{ marginRight: 8 }}>
+              <Avatar size={16} src={`/images/flags/${lang}.svg`} />
+            </span>
+          }
+        >
+          {lang === "en"
+            ? "English"
+            : lang === "ru"
+              ? "Русский"
+              : "Беларускі"}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
+  const menuItems = [
+    ...(i18n.languages || [])
+      .slice()
+      .sort()
+      .map((lang: string) => ({
+        key: lang,
+        label: (
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              changeLocale(lang);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: 8 }}
+          >
+            <Avatar size={16} src={`/images/flags/${lang}.svg`} />
+            <span>
+              {lang === "en" ? "English" : lang === "ru" ? "Русский" : "Беларуская"}
+            </span>
+          </div>
+        ),
+      })),
+  ];
+
   return (
     <AntdLayout.Header style={headerStyles}>
+      <Dropdown
+        //overlay={menuLang}
+        menu={{
+          items: menuItems,
+        }}
+        trigger={["click"]}
+      >
+        <Button type="link">
+          <Space>
+            <Avatar size={16} src={`/images/flags/${currentLocale}.svg`} />
+            {currentLocale === "en"
+              ? "English"
+              : currentLocale === "ru"
+                ? "Русский"
+                : "Беларускі"}
+
+
+            <DownOutlined />
+          </Space>
+        </Button>
+      </Dropdown>
       <Space>
         <Switch
           checkedChildren="🌛"
@@ -53,6 +127,7 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
           {user?.avatar && <Avatar src={user?.avatar} alt={user?.name} />}
         </Space>
       </Space>
+
     </AntdLayout.Header>
   );
 };

@@ -1,0 +1,266 @@
+{
+    "pages": {
+      "login": {
+        "title": "Увайдзіце ў свой уліковы запіс",
+        "signin": "Увайсці",
+        "signup": "Зарэгістравацца",
+        "divider": "або",
+        "fields": {
+          "email": "Email",
+          "password": "Пароль"
+        },
+        "errors": {
+          "validEmail": "Няправільны адрас электроннай пошты",
+          "requiredEmail": "Патрабуецца электронная пошта",
+          "requiredPassword": "Патрабуецца ўвесці пароль"
+        },
+        "buttons": {
+          "submit": "Аўтарызавацца",
+          "forgotPassword": "Забыліся пароль?",
+          "noAccount": "У вас няма ўліковага запісу?",
+          "rememberMe": "Памятай мяне"
+        }
+      },
+      "forgotPassword": {
+        "title": "Забыліся пароль?",
+        "fields": {
+          "email": "Email"
+        },
+        "errors": {
+          "validEmail": "Няправільны адрас электроннай пошты",
+          "requiredEmail": "Патрабуецца электронная пошта"
+        },
+        "buttons": {
+          "submit": "Адправіць інструкцыі па скіду"
+        }
+      },
+      "register": {
+        "title": "Зарэгіструйце свой уліковы запіс",
+        "fields": {
+          "email": "Email",
+          "password": "Пароль"
+        },
+        "errors": {
+          "validEmail": "Няправільны адрас электроннай пошты",
+          "requiredEmail": "Патрабуецца электронная пошта",
+          "requiredPassword": "Патрабуецца ўвесці пароль"
+        },
+        "buttons": {
+          "submit": "Зарэгістравацца",
+          "haveAccount": "У вас ёсць уліковы запіс?"
+        }
+      },
+      "updatePassword": {
+        "title": "Абнавіць пароль",
+        "fields": {
+          "password": "Новы пароль",
+          "confirmPassword": "Пацвердзіце новы пароль"
+        },
+        "errors": {
+          "confirmPasswordNotMatch": "Паролі не супадаюць",
+          "requiredPassword": "Патрабуецца ўвесці пароль",
+          "requiredConfirmPassword": "Патрабуецца пацвердзіць пароль"
+        },
+        "buttons": {
+          "submit": "Абнавіць"
+        }
+      },
+      "error": {
+        "info": "Магчыма, вы забыліся дадаць кампанент {{action}} да рэсурсу {{resource}}.",
+        "404": "На жаль, старонка, якую вы наведалі, не існуе.",
+        "resource404": "Вы ўпэўненыя, што стварылі рэсурс {{resource}}.",
+        "backHome": "Вярнуцца"
+      }
+    },
+    "actions": {
+      "list": "Спіс",
+      "create": "Стварыць",
+      "edit": "Рэдагаваць",
+      "show": "Паказаць"
+    },
+    "buttons": {
+      "create": "Стварыць",
+      "save": "Захаваць",
+      "logout": "Выхад",
+      "delete": "Выдаліць",
+      "edit": "Рэдагаваць",
+      "cancel": "Адмяніць",
+      "confirm": "Вы ўпэўненыя?",
+      "filter": "Фільтр",
+      "clear": "Ачыстіць",
+      "refresh": "Refresh",
+      "show": "Паказаць",
+      "undo": "Адмяніць",
+      "import": "Імпарт",
+      "clone": "Клон",
+      "notAccessTitle": "У вас няма дазволу на доступ"
+    },
+    "warnWhenUnsavedChanges": "Вы ўпэўненыя, што хочаце сысці? У вас ёсць незахаваных змены.",
+    "notifications": {
+      "success": "Паспех",
+      "error": "Error (status code: {{statusCode}})",
+      "undoable": "You have {{seconds}} seconds to undo",
+      "createSuccess": "Successfully created {{resource}}",
+      "createError": "There was an error creating {{resource}} (status code: {{statusCode}})",
+      "deleteSuccess": "Successfully deleted {{resource}}",
+      "deleteError": "Error when deleting {{resource}} (status code: {{statusCode}})",
+      "editSuccess": "Successfully edited {{resource}}",
+      "editError": "Error when editing {{resource}} (status code: {{statusCode}})",
+      "importProgress": "Importing: {{processed}}/{{total}}"
+    },
+    "loading": "Загрузка",
+    "tags": {
+      "clone": "Клон"
+    },
+    "dashboard": {
+      "dashboard": "Інфапанэль",
+      "title": "Інфапанэль",
+      "titles": {
+        "list": "Інфапанэль"
+      },
+      "filter": {
+        "title": "Filters",
+        "date": {
+          "lastWeek": "Мінулы тыдзень",
+          "lastMonth": "Мінулы месяц",
+          "last3Month": "Апошнія 3 месяцы",
+          "last6Month": "Апошнія 6 месяцаў",
+          "last9Month": "Апошнія 9 месяцаў",
+          "lastYear": "Мінулы год"
+        }
+      },
+      "grodnoRegion": "Гродзенская вобласть",
+      "grodno":"Гродна",
+      "volkovysk":"Ваўкавыск",
+      "lida":"Ліда",
+      "novogrudok":"Навагрудак",
+      "oshmyany":"Ашмяны",
+      "slonim":"Слонім",
+      "counter":{
+        "all_orders":"Прынята заказаў",
+        "in_work":"У працы",
+        "completed":"Выкананы"
+      }
+    },
+    "orders": {
+      "title": "Заказы",
+      "orders": "Заказы"
+    },
+    "line_orders": {
+      "title": "Усе заказы",
+      "line_orders": "Усе заказы",
+      "titles": {
+        "list": "Усе заказы"
+      },
+      "fields": {
+        "order_number": "Нумар заказу",
+        "organization": "Арганізацыя",
+        "order_create_date": "Дата заказа",
+        "phone": "Тэлефон",
+        "adress_object": "Адрас аб'екта",
+        "created_at": "Створаны на",
+        "departure_date": "Абследаванне",
+        "completion_date": "Выкананне",
+        "departure": {
+          "title":"Выезд",
+          "true": "Да",
+          "false": "Не"
+        },
+        "is_active": {
+          "title": "Статус",  
+          "true": "Выкананы",
+          "false": "У працы"
+        }
+      }
+    },
+    "in_line": {
+      "title": "Заказы у чарзе",
+      "in_line": "Заказы у чарзе",
+      "titles": {
+        "list": "Заказы у чарзе"
+      },
+      "fields": {
+        "row_num": "Чарга",
+        "order_number": "Нумар заказу",
+        "organization": "Арганізацыя",
+        "order_create_date": "Дата заказа",
+        "adress_object": "Адрас аб'екта",
+        "phone": "Тэлефон",
+        "created_at": "Створаны на",
+        "departure_date": "Абследаванне",
+        "completion_date": "Выкананне",
+        "departure": {
+          "title":"Выезд",
+          "true": "Да",
+          "false": "Не"
+        },
+        "is_active": {
+          "title": "Статус",  
+          "true": "Выкананы",
+          "false": "У працы"
+        }
+      }
+    },
+    "organizations": {
+      "title": "Арганізацыi",
+      "organizations": "Арганізацыi",
+      "titles": {
+        "list": "Арганізацыi"
+      },
+      "fields": {
+        "id": "Нумар ТОР",
+        "title": "Назва",
+        "fullname": "Поўная назва",
+        "created_at": "Створаны на",
+        "is_active": {
+          "title": "Статус",  
+          "true": "Актыўны",
+          "false": "Неактыўны"
+        }
+      }
+    },
+    "posts": {
+      "posts": "Posts",
+      "fields": {
+        "id": "Id",
+        "title": "Title",
+        "category": "Category",
+        "status": {
+          "title": "Status",
+          "published": "Published",
+          "draft": "Draft",
+          "rejected": "Rejected"
+        },
+        "content": "Content",
+        "createdAt": "Created At"
+      },
+      "titles": {
+        "create": "Create Post",
+        "edit": "Edit Post",
+        "list": "Posts",
+        "show": "Show Post"
+      }
+    },
+    "table": {
+      "actions": "Дзеянне",
+      "inTotal": "Усяго",
+      "items": "строк"
+    },
+    "documentTitle": {
+      "default": "refine",
+      "suffix": " | Refine",
+      "post": {
+        "list": "Posts | Refine",
+        "show": "#{{id}} Show Post | Refine",
+        "edit": "#{{id}} Edit Post | Refine",
+        "create": "Create new Post | Refine",
+        "clone": "#{{id}} Clone Post | Refine"
+      }
+    },
+    "autoSave": {
+      "success": "saved",
+      "error": "auto save failure",
+      "loading": "saving...",
+      "idle": "waiting for changes"
+    }
+  }

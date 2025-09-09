@@ -1,0 +1,266 @@
+{
+  "pages": {
+    "login": {
+      "title": "Войдите в свою учетную запись",
+      "signin": "Войти",
+      "signup": "Зарегистрироваться",
+      "divider": "или",
+      "fields": {
+        "email": "Email",
+        "password": "Пароль"
+      },
+      "errors": {
+        "validEmail": "Неправильный адрес электронной почты",
+        "requiredEmail": "Требуется электронная почта",
+        "requiredPassword": "Требуется ввести пароль"
+      },
+      "buttons": {
+        "submit": "Авторизоваться",
+        "forgotPassword": "Забыли пароль?",
+        "noAccount": "У вас нет учетной записи?",
+        "rememberMe": "Запомни меня"
+      }
+    },
+    "forgotPassword": {
+      "title": "Забыли пароль?",
+      "fields": {
+        "email": "Email"
+      },
+      "errors": {
+        "validEmail": "Неправильный адрес электронной почты",
+        "requiredEmail": "Требуется электронная почта"
+      },
+      "buttons": {
+        "submit": "Отправить инструкции по сбросу"
+      }
+    },
+    "register": {
+      "title": "Зарегистрируйте свой аккаунт",
+      "fields": {
+        "email": "Email",
+        "password": "Пароль"
+      },
+      "errors": {
+        "validEmail": "Неправильный адрес электронной почты",
+        "requiredEmail": "Патрабуецца электронная пошта",
+        "requiredPassword": "Требуется электронная почта"
+      },
+      "buttons": {
+        "submit": "Зарегистрироваться",
+        "haveAccount": "У вас есть учетная запись?"
+      }
+    },
+    "updatePassword": {
+      "title": "Обновить пароль",
+      "fields": {
+        "password": "Новый пароль",
+        "confirmPassword": "Подтвердите новый пароль"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Пароли не совпадают",
+        "requiredPassword": "Требуется пароль",
+        "requiredConfirmPassword": "Требуется подтвердить пароль"
+      },
+      "buttons": {
+        "submit": "Обновить"
+      }
+    },
+    "error": {
+      "info": "Возможно, вы забыли добавить компонент {{action}} в {{resource}} resource.",
+      "404": "Извините, страница, которую вы посетили, не существует.",
+      "resource404": "Вы уверены, что создали ресурс {{resource}}.",
+      "backHome": "Вернуться "
+    }
+  },
+  "actions": {
+    "list": "Список",
+    "create": "Создать",
+    "edit": "Редактировать",
+    "show": "Показать"
+  },
+  "buttons": {
+    "create": "Создать",
+    "save": "Созранить",
+    "logout": "Выход",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "cancel": "Отменить",
+    "confirm": "Вы уверены?",
+    "filter": "Фильтр",
+    "clear": "Очистить",
+    "refresh": "Сбросить",
+    "show": "Показать",
+    "undo": "Отменить",
+    "import": "Импорт",
+    "clone": "Копировать",
+    "notAccessTitle": "У вас нет разрешения на доступ"
+  },
+  "warnWhenUnsavedChanges": "Вы уверены, что хотите уйти? У вас есть несохраненные изменения.",
+  "notifications": {
+    "success": "Успех",
+    "error": "Ошибка (код состояния: {{StatusCode}})",
+    "undoable": "У вас есть {{seconds}} секунды, чтобы отменить",
+    "createSuccess": "Успешно созданн {{resource}}",
+    "createError": "Произошла ошибка при создании {{resource}} (код состояния: {{statusCode}})",
+    "deleteSuccess": "Успешно удален {{resource}}",
+    "deleteError": "Ошибка при удалении {{resource}} (код состояния: {{statusCode}})",
+    "editSuccess": "Успешно отредактированн {{resource}}",
+    "editError": "Ошибка при редактировании {{resource}} (код состояния: {{statusCode}})",
+    "importProgress": "Импорт: {{processed}}/{{total}}"
+  },
+  "loading": "Загрузка",
+  "tags": {
+    "clone": "Клон"
+  },
+  "dashboard": {
+    "dashboard": "Инфопанель",
+    "title": "Инфопанель",
+    "titles": {
+      "list": "Инфопанель"
+    },
+    "filter": {
+      "title": "Отбор",
+      "date": {
+        "lastWeek": "Прошлая неделя",
+        "lastMonth": "Прошлый месяц",
+        "last3Month": "Последние 3 месяца",
+        "last6Month": "Последние 6 месяцев",
+        "last9Month": "Последние 9 месяцев",
+        "lastYear": "За год"
+      }
+    },
+    "grodnoRegion": "Гродненская область",
+    "grodno":"Гродно",
+    "volkovysk":"Волковыск",
+    "lida":"Лида",
+    "novogrudok":"Новогрудок",
+    "oshmyany":"Ошмяны",
+    "slonim":"Слоним",
+    "counter":{
+      "all_orders":"Принято заказов",
+      "in_work":"В работе",
+      "completed":"Выполнено"
+    }
+  },
+  "orders": {
+    "title": "Заказы",
+    "orders": "Заказы"
+  },
+  "line_orders": {
+    "title": "Все заказы",
+    "line_orders": "Все заказы",
+    "titles": {
+      "list": "Все заказы"
+    },
+    "fields": {
+      "order_number": "Номер заказа",
+      "organization": "Организация",
+      "order_create_date": "Дата заказа",
+      "phone": "Телефон",
+      "adress_object": "Адрес объекта",
+      "created_at": "Создан",
+      "departure_date": "Обследование",
+      "completion_date": "Выполенение",
+      "departure": {
+        "title":"Выезд",
+        "true": "Да",
+        "false": "Нет"
+      },
+      "is_active": {
+        "title": "Статус",  
+        "true": "Выполнен",
+        "false": "В работе"
+      }
+    }
+  },
+  "in_line": {
+    "title": "Заказы в очереди",
+    "in_line": "Заказы в очереди",
+    "titles": {
+      "list": "Заказы в очереди"
+    },
+    "fields": {
+      "row_num": "Очередь",
+      "order_number": "Номер заказа",
+      "organization": "Организация",
+      "order_create_date": "Дата заказа",
+      "phone": "Телефон",
+      "adress_object": "Адрес объекта",
+      "created_at": "Создан",
+      "departure_date": "Обследование",
+      "completion_date": "Выполнение",
+      "departure": {
+        "title":"Выезд",
+        "true": "Да",
+        "false": "Нет"
+      },
+      "is_active": {
+        "title": "Статус",  
+        "true": "Выполнен",
+        "false": "В работе"
+      }
+    }
+  },
+  "organizations": {
+    "title": "Организации",
+    "organizations": "Организации",
+    "titles": {
+      "list": "Организации"
+    },
+    "fields": {
+      "id": "Номер ТОР",
+      "title": "Наименование",
+      "fullname": "Полное Наименование",
+      "created_at": "Создан",
+      "is_active": {
+        "title": "Статус",  
+        "true": "Активна",
+        "false": "Не активна"
+      }
+    }
+  },
+  "posts": {
+    "posts": "Posts",
+    "fields": {
+      "id": "Id",
+      "title": "Title",
+      "category": "Category",
+      "status": {
+        "title": "Status",
+        "published": "Published",
+        "draft": "Draft",
+        "rejected": "Rejected"
+      },
+      "content": "Content",
+      "createdAt": "Created At"
+    },
+    "titles": {
+      "create": "Create Post",
+      "edit": "Edit Post",
+      "list": "Posts",
+      "show": "Show Post"
+    }
+  },
+  "table": {
+    "actions": "Действие",
+    "inTotal": "Всего",
+    "items": "строк"
+  },
+  "documentTitle": {
+    "default": "refine",
+    "suffix": " | Refine",
+    "post": {
+      "list": "Posts | Refine",
+      "show": "#{{id}} Show Post | Refine",
+      "edit": "#{{id}} Edit Post | Refine",
+      "create": "Create new Post | Refine",
+      "clone": "#{{id}} Clone Post | Refine"
+    }
+  },
+  "autoSave": {
+    "success": "saved",
+    "error": "auto save failure",
+    "loading": "saving...",
+    "idle": "waiting for changes"
+  }
+}

@@ -140,120 +140,33 @@
       }
     }
   },
-  "items": {
-    "title": "Заказы",
-    "items": "Заказы"
-  },
-  "line_orders": {
-    "title": "Все заказы",
-    "line_orders": "Все заказы",
+  "item": {
+    "title": "Аналитика",
+    "item": "Аналитика",
     "titles": {
-      "list": "Все заказы"
+      "list": "Аналитика"
     },
     "fields": {
-      "order_number": "Номер заказа",
-      "organization": "Организация",
-      "order_create_date": "Дата заказа",
-      "phone": "Телефон",
-      "adress_object": "Адрес объекта",
-      "created_at": "Создан",
-      "departure_date": "Обследование",
-      "completion_date": "Выполенение",
-      "departure": {
-        "title":"Выезд",
-        "true": "Да",
-        "false": "Нет"
-      },
-      "is_active": {
-        "title": "Статус",  
+      "client":"Клиент",
+      "created_at":"Дата и время создания",
+      "typeService":"Услуга",
+      "status":
+      {
+        "title":"Статус",
         "true": "Выполнен",
         "false": "В работе"
-      }
-    }
-  },
-  "in_line": {
-    "title": "Заказы в очереди",
-    "in_line": "Заказы в очереди",
-    "titles": {
-      "list": "Заказы в очереди"
-    },
-    "fields": {
-      "row_num": "Очередь",
-      "order_number": "Номер заказа",
-      "organization": "Организация",
-      "order_create_date": "Дата заказа",
-      "phone": "Телефон",
-      "adress_object": "Адрес объекта",
-      "created_at": "Создан",
-      "departure_date": "Обследование",
-      "completion_date": "Выполнение",
-      "departure": {
-        "title":"Выезд",
-        "true": "Да",
-        "false": "Нет"
       },
-      "is_active": {
-        "title": "Статус",  
-        "true": "Выполнен",
-        "false": "В работе"
-      }
-    }
-  },
-  "organizations": {
-    "title": "Организации",
-    "organizations": "Организации",
-    "titles": {
-      "list": "Организации"
+      "updated_at":"Дата и время завершения обслуживания",
+      "servesUser":"Обслужил"
     },
-    "fields": {
-      "id": "Номер ТОР",
-      "title": "Наименование",
-      "fullname": "Полное Наименование",
-      "created_at": "Создан",
-      "is_active": {
-        "title": "Статус",  
-        "true": "Активна",
-        "false": "Не активна"
-      }
-    }
-  },
-  "posts": {
-    "posts": "Posts",
-    "fields": {
-      "id": "Id",
-      "title": "Title",
-      "category": "Category",
-      "status": {
-        "title": "Status",
-        "published": "Published",
-        "draft": "Draft",
-        "rejected": "Rejected"
-      },
-      "content": "Content",
-      "createdAt": "Created At"
-    },
-    "titles": {
-      "create": "Create Post",
-      "edit": "Edit Post",
-      "list": "Posts",
-      "show": "Show Post"
+    "filter":{
+        "searchByServesUser":"Поиск по Фамилии"
     }
   },
   "table": {
     "actions": "Действие",
     "inTotal": "Всего",
     "items": "строк"
-  },
-  "documentTitle": {
-    "default": "refine",
-    "suffix": " | Refine",
-    "post": {
-      "list": "Posts | Refine",
-      "show": "#{{id}} Show Post | Refine",
-      "edit": "#{{id}} Edit Post | Refine",
-      "create": "Create new Post | Refine",
-      "clone": "#{{id}} Clone Post | Refine"
-    }
   },
   "autoSave": {
     "success": "saved",

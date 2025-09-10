@@ -139,126 +139,40 @@
         "servesUser":"Абслугоўвае"
       }
     }
+  },
+  "item": {
+    "title": "Аналітыка",
+    "item": "Аналітыка",
+    "titles": {
+      "list": "Аналітыка"
     },
-    "orders": {
-      "title": "Заказы",
-      "orders": "Заказы"
-    },
-    "line_orders": {
-      "title": "Усе заказы",
-      "line_orders": "Усе заказы",
-      "titles": {
-        "list": "Усе заказы"
+    "fields": {
+      "client":"Кліент",
+      "created_at":"Дата і час стварэння",
+      "typeService":"Паслуга",
+      "status":
+      {
+        "title":"Статус",
+        "true": "Выкананы",
+        "false": "У працы"
       },
-      "fields": {
-        "order_number": "Нумар заказу",
-        "organization": "Арганізацыя",
-        "order_create_date": "Дата заказа",
-        "phone": "Тэлефон",
-        "adress_object": "Адрас аб'екта",
-        "created_at": "Створаны на",
-        "departure_date": "Абследаванне",
-        "completion_date": "Выкананне",
-        "departure": {
-          "title":"Выезд",
-          "true": "Да",
-          "false": "Не"
-        },
-        "is_active": {
-          "title": "Статус",  
-          "true": "Выкананы",
-          "false": "У працы"
-        }
-      }
+      "updated_at":"Дата і час завяршэння абслугоўвання",
+      "servesUser":"Абслужыў"
     },
-    "in_line": {
-      "title": "Заказы у чарзе",
-      "in_line": "Заказы у чарзе",
-      "titles": {
-        "list": "Заказы у чарзе"
-      },
-      "fields": {
-        "row_num": "Чарга",
-        "order_number": "Нумар заказу",
-        "organization": "Арганізацыя",
-        "order_create_date": "Дата заказа",
-        "adress_object": "Адрас аб'екта",
-        "phone": "Тэлефон",
-        "created_at": "Створаны на",
-        "departure_date": "Абследаванне",
-        "completion_date": "Выкананне",
-        "departure": {
-          "title":"Выезд",
-          "true": "Да",
-          "false": "Не"
-        },
-        "is_active": {
-          "title": "Статус",  
-          "true": "Выкананы",
-          "false": "У працы"
-        }
-      }
-    },
-    "organizations": {
-      "title": "Арганізацыi",
-      "organizations": "Арганізацыi",
-      "titles": {
-        "list": "Арганізацыi"
-      },
-      "fields": {
-        "id": "Нумар ТОР",
-        "title": "Назва",
-        "fullname": "Поўная назва",
-        "created_at": "Створаны на",
-        "is_active": {
-          "title": "Статус",  
-          "true": "Актыўны",
-          "false": "Неактыўны"
-        }
-      }
-    },
-    "posts": {
-      "posts": "Posts",
-      "fields": {
-        "id": "Id",
-        "title": "Title",
-        "category": "Category",
-        "status": {
-          "title": "Status",
-          "published": "Published",
-          "draft": "Draft",
-          "rejected": "Rejected"
-        },
-        "content": "Content",
-        "createdAt": "Created At"
-      },
-      "titles": {
-        "create": "Create Post",
-        "edit": "Edit Post",
-        "list": "Posts",
-        "show": "Show Post"
-      }
-    },
-    "table": {
-      "actions": "Дзеянне",
-      "inTotal": "Усяго",
-      "items": "строк"
-    },
-    "documentTitle": {
-      "default": "refine",
-      "suffix": " | Refine",
-      "post": {
-        "list": "Posts | Refine",
-        "show": "#{{id}} Show Post | Refine",
-        "edit": "#{{id}} Edit Post | Refine",
-        "create": "Create new Post | Refine",
-        "clone": "#{{id}} Clone Post | Refine"
-      }
-    },
-    "autoSave": {
-      "success": "saved",
-      "error": "auto save failure",
-      "loading": "saving...",
-      "idle": "waiting for changes"
+    "filter":{
+        "searchByServesUser":"Пошук па Прозвішчы"
     }
+  },  
+  "table": {
+    "actions": "Дзеянне",
+    "inTotal": "Усяго",
+    "items": "строк"
+  },
+
+  "autoSave": {
+    "success": "saved",
+    "error": "auto save failure",
+    "loading": "saving...",
+    "idle": "waiting for changes"
+  }
   }

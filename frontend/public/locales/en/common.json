@@ -140,122 +140,35 @@
       }
     }
     },
-    "orders": {
-      "title": "Orders",
-      "orders": "Orders"
+    "item": {
+    "title": "Analytics",
+    "item": "Analytics",
+    "titles": {
+      "list": "Analytics"
     },
-    "line_orders": {
-      "title": "All orders",
-      "line_orders": "All orders",
-      "titles": {
-        "list": "All orders"
+    "fields": {
+      "client":"Client",
+      "created_at":"Date and time of creation",
+      "typeService":"Service",
+      "status":
+      {
+        "title":"Status",
+        "true": "Completed",
+        "false": "In progress"
       },
-      "fields": {
-        "order_number": "Order number",
-        "organization": "Оrganization",
-        "order_create_date": "Оrder date",
-        "adress_object": "Аdress object",
-        "phone": "Phone",
-        "departure_date": "Departure date",
-        "completion_date": "Сompletion date",
-        "created_at": "Created at",
-        "is_active": {
-          "title": "Status",  
-          "true": "Completed",
-          "false": "In work"
-        }
-      }
+      "updated_at":"Date and time of service completion",
+      "servesUser":"Served"
     },
-    "in_line": {
-      "title": "In line",
-      "in_line": "In line",
-      "titles": {
-        "list": "In line"
-      },
-      "fields": {
-        "row_num": "Queue",
-        "order_number": "Order number",
-        "organization": "Organization",
-        "order_create_date": "Оrder date",
-        "adress_object": "Аdress object",
-        "phone": "Phone",
-        "created_at": "Created at",
-        "departure_date": "Departure date",
-        "completion_date": "Сompletion",
-        "departure": {
-          "title":"Departure",
-          "true": "Yes",
-          "false": "No"
-        },
-        "is_active": {
-          "title": "Status",  
-          "true": "Completed",
-          "false": "In work"
-        }
-      }
-    },
-    "organizations": {
-      "title": "Organizations",
-      "organizations": "Organizations",
-      "titles": {
-        "list": "Organizations"
-      },
-      "fields": {
-        "id": "TOR number",
-        "title": "Title",
-        "fullname": "Full name",
-        "created_at": "Created at",
-        "departure": {
-          "title":"Departure",
-          "true": "Yes",
-          "false": "No"
-        },        
-        "is_active": {
-          "title": "Status",  
-          "true": "Active",
-          "false": "Un Active"
-        }
-      }
-    },
-    "posts": {
-      "posts": "Posts",
-      "fields": {
-        "id": "Id",
-        "title": "Title",
-        "category": "Category",
-        "status": {
-          "title": "Status",
-          "published": "Published",
-          "draft": "Draft",
-          "rejected": "Rejected"
-        },
-        "content": "Content",
-        "createdAt": "Created At"
-      },
-      "titles": {
-        "create": "Create Post",
-        "edit": "Edit Post",
-        "list": "Posts",
-        "show": "Show Post"
-      }
-    },
-    "table": {
-      "actions": "Actions",
-      "inTotal": "Total",
-      "items": "items"
-    },
-    "documentTitle": {
-      "default": "refine",
-      "suffix": " | Refine",
-      "post": {
-        "list": "Posts | Refine",
-        "show": "#{{id}} Show Post | Refine",
-        "edit": "#{{id}} Edit Post | Refine",
-        "create": "Create new Post | Refine",
-        "clone": "#{{id}} Clone Post | Refine"
-      }
-    },
-    "autoSave": {
+    "filter":{
+        "searchByServesUser":"Search by Last Name"
+    }
+  },
+  "table": {
+    "actions": "Actions",
+    "inTotal": "Total",
+    "items": "items"
+  },
+  "autoSave": {
       "success": "saved",
       "error": "auto save failure",
       "loading": "saving...",

@@ -1,13 +1,14 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { IItems } from "../../interfaces/items";
 import { CreateButton, DateField, FilterDropdown, getDefaultSortOrder, List, rangePickerFilterMapper, useSelect, useTable } from "@refinedev/antd";
-import { getDefaultFilter, HttpError } from "@refinedev/core";
+import { getDefaultFilter, HttpError, useTranslate } from "@refinedev/core";
 import { DatePicker, Input, Select, Table, theme, Typography } from "antd";
 import { PaginationTotal } from "../../components/paginationTotal";
 import dayjs from "dayjs";
 import { ITopic } from "../../interfaces/topic";
 
 export const ItemsList = () => {
+    const translate = useTranslate();
     const { token } = theme.useToken();
     const now = dayjs();
 
@@ -62,12 +63,12 @@ export const ItemsList = () => {
                 }}
             > {/* Настройка таблицы */}
                 <Table.Column
-                    title="Клиент"
+                    title={translate("item.fields.client")}
                     width={50}
                     dataIndex="generated_number"
                 /> {/* Отображение номера */}
                 <Table.Column
-                    title="Дата и время создания"
+                    title={translate("item.fields.created_at")}
                     sorter
                     dataIndex="created_at"
                     width={200}
@@ -95,7 +96,7 @@ export const ItemsList = () => {
                 /> Отображение создателя */}
                 <Table.Column
 
-                    title="Услуга"
+                    title={translate("item.fields.typeService")}
                     dataIndex={["topic", "name_ru"]} // Доступ к вложенному полю topic.name_ru
                     key={"topic_id"}
                     filterDropdown={(props) => (
@@ -118,13 +119,13 @@ export const ItemsList = () => {
                 />
                 <Table.Column
                     width={100}
-                    title="Состояние"
+                    title={translate("item.fields.status.title")}
                     dataIndex={["group", "is_closed"]} // Отображение поля is_closed из вложенного объекта group
-                    render={(isClosed) => (isClosed ? "Закрыт" : "Открыт")} // Преобразование булевого значения в строку
+                    render={(isClosed) => (isClosed ? translate("item.fields.status.true") : translate("item.fields.status.false"))} // Преобразование булевого значения в строку
                 />
                 <Table.Column
                     width={300}
-                    title="Дата и время завершения обслуживания"
+                    title={translate("item.fields.updated_at")}
                     dataIndex="updated_at"
                     render={(date) => {
                         if (date != null) {
@@ -136,7 +137,7 @@ export const ItemsList = () => {
                 />
                 <Table.Column
                     width={250}
-                    title="Обслужил"
+                    title={translate("item.fields.servesUser")}
                     dataIndex="modified_by"
                     key={"modified_by"}
                     filterIcon={(filtered) => (
@@ -150,8 +151,7 @@ export const ItemsList = () => {
                     filterDropdown={(props) => (
                         <FilterDropdown {...props}>
                             <Input
-                                placeholder={"Поиск по Фамилии"}
-                            //placeholder={t("products.filter.name.placeholder")} 
+                                placeholder={translate("item.filter.searchByServesUser")}
                             />
                         </FilterDropdown>
                     )}

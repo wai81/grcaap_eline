@@ -118,29 +118,27 @@
       "titles": {
         "list": "Інфапанэль"
       },
-      "filter": {
-        "title": "Filters",
-        "date": {
-          "lastWeek": "Мінулы тыдзень",
-          "lastMonth": "Мінулы месяц",
-          "last3Month": "Апошнія 3 месяцы",
-          "last6Month": "Апошнія 6 месяцаў",
-          "last9Month": "Апошнія 9 месяцаў",
-          "lastYear": "Мінулы год"
-        }
-      },
-      "grodnoRegion": "Гродзенская вобласть",
-      "grodno":"Гродна",
-      "volkovysk":"Ваўкавыск",
-      "lida":"Ліда",
-      "novogrudok":"Навагрудак",
-      "oshmyany":"Ашмяны",
-      "slonim":"Слонім",
-      "counter":{
-        "all_orders":"Прынята заказаў",
-        "in_work":"У працы",
-        "completed":"Выкананы"
+      "currentTime": "Час зараз",
+      "clientsWaiting":{
+      "title":"Кліенты чакаюць",
+      "fields":{
+      "clientAndTime":"Кліент / Час",
+      "typeService":"Паслуга",
+      "status":"Статус",
+      "waitingTime":"Час чакання"
       }
+    },
+    "clientsAtWork": {
+      "title":"Кліенты ў працы",
+      "fields":{
+        "clientAndTime":"Кліент / Час",
+        "typeService":"Паслуга",
+        "status":"Статус",
+        "startTime":"Пачатак абслугоўвання",
+        "serviceTime":"Час абслугоўвання",
+        "servesUser":"Абслугоўвае"
+      }
+    }
     },
     "orders": {
       "title": "Заказы",

@@ -118,29 +118,27 @@
       "titles": {
         "list": "Dashboard"
       },
-      "filter": {
-        "title": "Filters",
-        "date": {
-          "lastWeek": "Last Week",
-          "lastMonth": "Last Month",
-          "last3Month": "Last 3 Months",
-          "last6Month": "Last 6 Months",
-          "last9Month": "Last 9 Month",
-          "lastYear": "Last Year"
-        }
-      },
-      "grodnoRegion": "Grono Region",
-      "grodno":"Grono",
-      "volkovysk":"Volkovysk",
-      "lida":"Lida",
-      "novogrudok":"Novogrudok",
-      "oshmyany":"Oshmyany",
-      "slonim":"Slonim",
-      "counter":{
-        "all_orders":"All orders",
-        "in_work":"In work",
-        "completed":"Completed"
+      "currentTime": "Current time",
+    "clientsWaiting":{
+      "title":"Customers expect",
+      "fields":{
+      "clientAndTime":"Client / Time",
+      "typeService":"Service",
+      "status":"Status",
+      "waitingTime":"Waiting timeя"
       }
+    },
+    "clientsAtWork": {
+      "title":"Clients at work",
+      "fields":{
+        "clientAndTime":"Client / Time",
+        "typeService":"Service",
+        "status":"Status",
+        "startTime":"Start of service",
+        "serviceTime":"Service time",
+        "servesUser":"Servicing"
+      }
+    }
     },
     "orders": {
       "title": "Orders",

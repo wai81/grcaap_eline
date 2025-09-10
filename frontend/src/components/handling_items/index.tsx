@@ -3,13 +3,15 @@ import { IItemsEline } from "../../interfaces/items"
 import { DateField, FilterDropdown, useSelect, useTable } from "@refinedev/antd"
 import { PaginationTotal } from "../paginationTotal"
 import { TagOutlined, UserOutlined } from "@ant-design/icons"
-import { getDefaultFilter, HttpError } from "@refinedev/core"
+import { getDefaultFilter, HttpError, useTranslate } from "@refinedev/core"
 import dayjs from 'dayjs'; // Убедитесь, что вы установили dayjs
 import { ITopic } from "../../interfaces/topic"
 import { IItemStatusType } from "../../interfaces/item_status_type"
 
 export const HandingItems = () => {
+    const translate = useTranslate();
     const { tableProps, filters } = useTable<IItemsEline, HttpError>({
+
         resource: "status/handing_items",
         filters: {
             initial: [
@@ -70,7 +72,7 @@ export const HandingItems = () => {
     const status_types = itemStatusTypeQueryResult?.data?.data || [];
 
     return (
-        <Card title={"Клиенты в работе"}>
+        <Card title={translate("dashboard.clientsAtWork.title")}>
             <List>
                 <Table
                     {...tableProps}
@@ -88,7 +90,7 @@ export const HandingItems = () => {
                     <Table.Column
                         // title={translate("in_line.fields.row_num")}
                         key={"combined"}
-                        title="Клиент / Время"
+                        title={translate("dashboard.clientsAtWork.fields.clientAndTime")}
                         width={50}
                         render={(_, record: IItemsEline) => {
                             // Получите значения из record
@@ -109,7 +111,7 @@ export const HandingItems = () => {
                         dataIndex={["topic_id", "name_ru"]}
                         // title={translate("in_line.fields.completion_date")}
                         key={"topic_id"}
-                        title={"Услуга"}
+                        title={translate("dashboard.clientsAtWork.fields.typeService")}
                         width={180}
                         filterDropdown={(props) => (
                             <FilterDropdown
@@ -143,7 +145,7 @@ export const HandingItems = () => {
                     <Table.Column
                         dataIndex="item_status_id"
                         // title={translate("in_line.fields.completion_date")}
-                        title={"Статус"}
+                        title={translate("dashboard.clientsAtWork.fields.status")}
                         width={80}
                         align="center"
                         filterDropdown={(props) => (
@@ -176,13 +178,13 @@ export const HandingItems = () => {
                     <Table.Column
                         dataIndex={["status_updated_at"]}
                         // title={translate("in_line.fields.completion_date")}
-                        title={"Начало обслуживания"}
+                        title={translate("dashboard.clientsAtWork.fields.startTime")}
                         width={100}
                         align="center"
                         render={(value: any) => <DateField value={value} format="HH:mm:ss" />}
                     />
                     <Table.Column
-                        title={"Время обслуживания"}
+                        title={translate("dashboard.clientsAtWork.fields.serviceTime")}
                         dataIndex={["status_updated_at"]}
                         width={50}
                         align="center"
@@ -198,7 +200,7 @@ export const HandingItems = () => {
                         }}
                     />
                     <Table.Column
-                        title={"Обслуживает"}
+                        title={translate("dashboard.clientsAtWork.fields.servesUser")}
                         dataIndex={"modified_by"}
                         width={60}
                         render={(value: any) => {

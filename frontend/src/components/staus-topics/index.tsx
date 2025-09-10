@@ -1,4 +1,4 @@
-import { useApiUrl, useCustom, useInfiniteList } from "@refinedev/core";
+import { useApiUrl, useCustom, useInfiniteList, useTranslate } from "@refinedev/core";
 import { useEffect, useState } from "react";
 import { ITopic } from "../../interfaces/topic";
 
@@ -10,7 +10,7 @@ import { List } from "@refinedev/antd";
 export const StatusTopis = ({ }) => {
     const API_URL = useApiUrl();
     const [time, setTime] = useState(new Date());
-
+    const translate = useTranslate();
     const { data: listTopics, isLoading, hasNextPage, fetchNextPage, } = useInfiniteList<ITopic>({
         resource: "topic",
         config: {
@@ -42,7 +42,8 @@ export const StatusTopis = ({ }) => {
 
     return (
         <List title={false} >
-            <Typography>Текущее время: {time.toLocaleTimeString()}</Typography>
+            <Typography>
+                {translate("dashboard.currentTime")} {time.toLocaleTimeString()}</Typography>
             <AntdList
 
                 grid={{

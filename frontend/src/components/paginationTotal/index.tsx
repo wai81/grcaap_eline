@@ -27,8 +27,7 @@ export const PaginationTotal: FC<PaginationTotalProps> = ({
                     color: token.colorTextTertiary,
                 }}
             >
-                {/* {translate("table.inTotal")} */}
-                Всего
+                {translate("table.inTotal")}
             </Typography.Text>
             {" "}
             <Typography.Text
@@ -44,8 +43,7 @@ export const PaginationTotal: FC<PaginationTotalProps> = ({
                     color: token.colorTextTertiary,
                 }}
             >
-                {/* {translate("table.items")} */}
-                записей
+                {translate("table.items")}
             </Typography.Text>
         </div>
     );

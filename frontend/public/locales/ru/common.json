@@ -118,33 +118,31 @@
     "titles": {
       "list": "Инфопанель"
     },
-    "filter": {
-      "title": "Отбор",
-      "date": {
-        "lastWeek": "Прошлая неделя",
-        "lastMonth": "Прошлый месяц",
-        "last3Month": "Последние 3 месяца",
-        "last6Month": "Последние 6 месяцев",
-        "last9Month": "Последние 9 месяцев",
-        "lastYear": "За год"
+    "currentTime": "Текущее время",
+    "clientsWaiting":{
+      "title":"Клиенты ожидают",
+      "fields":{
+      "clientAndTime":"Клиент / Время",
+      "typeService":"Услуга",
+      "status":"Статус",
+      "waitingTime":"Время ожидания"
       }
     },
-    "grodnoRegion": "Гродненская область",
-    "grodno":"Гродно",
-    "volkovysk":"Волковыск",
-    "lida":"Лида",
-    "novogrudok":"Новогрудок",
-    "oshmyany":"Ошмяны",
-    "slonim":"Слоним",
-    "counter":{
-      "all_orders":"Принято заказов",
-      "in_work":"В работе",
-      "completed":"Выполнено"
+    "clientsAtWork": {
+      "title":"Клиенты в работе",
+      "fields":{
+        "clientAndTime":"Клиент / Время",
+        "typeService":"Услуга",
+        "status":"Статус",
+        "startTime":"Начало обслуживания",
+        "serviceTime":"Время обслуживания",
+        "servesUser":"Обслуживает"
+      }
     }
   },
-  "orders": {
+  "items": {
     "title": "Заказы",
-    "orders": "Заказы"
+    "items": "Заказы"
   },
   "line_orders": {
     "title": "Все заказы",

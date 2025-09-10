@@ -3,13 +3,13 @@ import { IItemsEline } from "../../interfaces/items"
 import { DateField, FilterDropdown, useSelect, useTable } from "@refinedev/antd"
 import { PaginationTotal } from "../paginationTotal"
 import { TagOutlined } from "@ant-design/icons"
-import { getDefaultFilter, HttpError } from "@refinedev/core"
+import { getDefaultFilter, HttpError, useTranslate } from "@refinedev/core"
 import dayjs from 'dayjs'; // Убедитесь, что вы установили dayjs
 import { ITopic } from "../../interfaces/topic"
 import { IItemStatusType } from "../../interfaces/item_status_type"
 
 export const WaitItems = () => {
-
+    const translate = useTranslate();
     const { tableProps, filters } = useTable<IItemsEline, HttpError>({
         resource: "status/wait_items",
         filters: {
@@ -69,7 +69,7 @@ export const WaitItems = () => {
     const status_types = itemStatusTypeQueryResult?.data?.data || [];
 
     return (
-        <Card title={"Клиенты ожидают"}>
+        <Card title={translate("dashboard.clientsWaiting.title")}>
             <List>
                 <Table
                     {...tableProps}
@@ -87,7 +87,7 @@ export const WaitItems = () => {
                     <Table.Column
                         // title={translate("in_line.fields.row_num")}
                         key={"combined"}
-                        title="Клиент / Время"
+                        title={translate("dashboard.clientsWaiting.fields.clientAndTime")}
                         width={50}
                         render={(_, record: IItemsEline) => {
                             // Получите значения из record
@@ -106,9 +106,9 @@ export const WaitItems = () => {
                     />
                     <Table.Column
                         dataIndex={["topic_id", "name_ru"]}
-                        // title={translate("in_line.fields.completion_date")}
+                        title={translate("dashboard.clientsWaiting.fields.typeService")}
                         key={"topic_id"}
-                        title={"Услуга"}
+                        //title={"Услуга"}
                         width={180}
                         filterDropdown={(props) => (
                             <FilterDropdown
@@ -142,7 +142,7 @@ export const WaitItems = () => {
                     <Table.Column
                         dataIndex="item_status_id"
                         // title={translate("in_line.fields.completion_date")}
-                        title={"Статус"}
+                        title={translate("dashboard.clientsWaiting.fields.status")}
                         width={80}
                         align="center"
                         defaultFilteredValue={getDefaultFilter("item_status_id", filters, "eq")}
@@ -163,7 +163,7 @@ export const WaitItems = () => {
                         render={(value: any) => <DateField value={value} format="HH:mm:ss" />}
                     /> */}
                     <Table.Column
-                        title={"Ожидание"}
+                        title={translate("dashboard.clientsWaiting.fields.waitingTime")}
                         dataIndex={["item_created_at"]}
                         width={120}
                         align="center"

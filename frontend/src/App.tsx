@@ -34,7 +34,7 @@ import { ThemedLayoutV2 } from "./components/layout";
 import { ThemedTitleV2 } from "./components/layout/title";
 import { ThemedSiderV2 } from "./components/layout/sider";
 import { ThemedHeaderV2 } from "./components/layout/header";
-import { DashboardOutlined } from "@ant-design/icons";
+import { DashboardOutlined, PieChartOutlined } from "@ant-design/icons";
 import { DashboardPage } from "./pages/dashboard";
 import { ItemsList, ItemsShow } from "./pages/items";
 import ru_Ru from 'antd/locale/ru_RU'
@@ -65,25 +65,7 @@ function App() {
                   //dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
                   notificationProvider={useNotificationProvider}
                   routerProvider={routerBindings}
-                  resources={[// {
-                    //   name: "blog_posts",
-                    //   list: "/blog-posts",
-                    //   create: "/blog-posts/create",
-                    //   edit: "/blog-posts/edit/:id",
-                    //   show: "/blog-posts/show/:id",
-                    //   meta: {
-                    //     canDelete: true,
-                    //   },
-                    // }, {
-                    //   name: "categories",
-                    //   list: "/categories",
-                    //   create: "/categories/create",
-                    //   edit: "/categories/edit/:id",
-                    //   show: "/categories/show/:id",
-                    //   meta: {
-                    //     canDelete: true,
-                    //   },
-                    //}
+                  resources={[
                     {
                       name: "dashboard",
                       list: "/",
@@ -93,7 +75,10 @@ function App() {
                     }, {
                       name: "item",
                       list: "item/",
-                      show: "item/:id"
+                      show: "item/:id",
+                      meta: {
+                        icon: <PieChartOutlined />
+                      }
                     }]}
                   options={{
                     syncWithLocation: false,

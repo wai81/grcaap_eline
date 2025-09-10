@@ -23,7 +23,8 @@
     "react-dom": "^18.0.0",
     "react-i18next": "^15.7.3",
     "react-router": "^7.8.2",
-    "react-slot-counter": "^3.3.1"
+    "react-slot-counter": "^3.3.1",
+    "recharts": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.16.2",

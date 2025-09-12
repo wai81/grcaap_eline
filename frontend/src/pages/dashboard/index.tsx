@@ -1,9 +1,10 @@
 import { List } from "@refinedev/antd";
-import { useApiUrl, useCustom, useTranslation } from "@refinedev/core";
+import { useApiUrl, useCustom } from "@refinedev/core";
 import { StatusTopis } from "../../components/staus-topics";
 import { Card, Col, Row } from "antd";
 import { WaitItems } from "../../components/wait_items";
 import { HandingItems } from "../../components/handling_items";
+import { PieChartServices } from "../../components/charts/pieChartService";
 
 export const DashboardPage: React.FC = () => {
     const API_URL = useApiUrl();

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, constr, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -21,8 +21,7 @@ class TopicBase(BaseModel):
 class TopicInDB(TopicBase):
     id: int  # Поле id, добавленное для представления модели
 
-    class ConfigDict:
-        from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
+    model_config = ConfigDict(from_attributes=True)
 
 
 class LineTopic(BaseModel):

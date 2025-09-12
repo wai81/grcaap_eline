@@ -1,4 +1,4 @@
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, constr, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -56,4 +56,8 @@ class ItemsStatus(BaseModel):
         from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
 
 
+class ItemsGroupByTopic(BaseModel):
+    topic: TopicInDB
+    count: int
 
+    model_config = ConfigDict(from_attributes=True)

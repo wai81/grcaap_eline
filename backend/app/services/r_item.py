@@ -54,7 +54,7 @@ class RItem(RBase[Item]):
         #          )
 
         query = select(self.model)
-        #query = topic_filter.filter(query)
+        # query = topic_filter.filter(query)
         # query = group_filter.filter(query)
         query = item_filter.filter(query)
 
@@ -104,7 +104,7 @@ class RItem(RBase[Item]):
             group_filter: Optional[ItemGroupFilter] = Depends(ItemGroupFilter),
             status_filter: Optional[StatusTypeFilter] = Depends(StatusTypeFilter),
             item_filter: Optional[ItemsFilter] = Depends(ItemsFilter),
-            filter_modified_by_is_notnull: bool = None   # Параметр для фильтрации
+            filter_modified_by_is_notnull: bool = None  # Параметр для фильтрации
     ) -> Page[ItemsStatus]:
         item_ = self.model
 

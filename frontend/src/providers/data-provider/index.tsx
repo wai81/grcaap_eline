@@ -1,6 +1,6 @@
 import type { DataProvider } from "@refinedev/core";
 import { generateFilter, generateSort } from "./utils";
- 
+
 const API_URL = import.meta.env.VITE_API_URL
 //console.log("api_url " +API_URL)
 
@@ -71,24 +71,12 @@ export const dataProvider: DataProvider = {
     if (filters && filters.length > 0) {
       const getFilter = generateFilter(filters)
       Object.entries(getFilter).forEach(([key, value]) => {
-        console.log(value)
         if (value.length !== 0 && value !== undefined && value !== "" &&
           !(Array.isArray(value) && value.length === 0) &&
           !(typeof value === 'object' && Object.keys(value).length === 0)) {
           params.append(key, value);
         }
       })
-      //params.append(getFilter.)
-      // filters.forEach((filter) => {
-      //     if ("field" in filter && filter.operator === "eq") {
-      //       if (filter.value !== null && filter.value !== undefined && filter.value !== "" &&   
-      //         !(Array.isArray(filter.value) && filter.value.length === 0) &&  
-      //         !(typeof filter.value === 'object' && Object.keys(filter.value).length === 0)){
-      //         // Our fake API supports "eq" operator by simply appending the field name and value to the query string.
-      //         params.append(filter.field, filter.value);
-      //         }
-      //     }
-      // });
     }
 
     //const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);

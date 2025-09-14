@@ -1,12 +1,11 @@
 import { useApiUrl, useCustom, useTranslate } from '@refinedev/core';
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import dayjs, { Dayjs } from "dayjs";
-import { Card, DatePicker, Empty, Space, Spin } from 'antd';
-import { useMemo, useState } from 'react';
+import { Card,  Empty, Spin } from 'antd';
+import { useMemo } from 'react';
 
-const { RangePicker } = DatePicker;
 
-export const PieChartServices = ({ range }: { range: [Dayjs, Dayjs] }) => {
+export const BarChartServicesCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
     const API_URL = useApiUrl();
     const translate = useTranslate();
     const now = dayjs();
@@ -46,7 +45,6 @@ export const PieChartServices = ({ range }: { range: [Dayjs, Dayjs] }) => {
         }));
     }, [raw]);
 
-    const RADIAN = Math.PI / 180;
     const COLORS = [
         "#4F46E5", // Indigo 600
         "#10B981", // Emerald 500
@@ -129,7 +127,9 @@ export const PieChartServices = ({ range }: { range: [Dayjs, Dayjs] }) => {
     };
 
     return (
-        <Card title={translate("dashboard.countClietsByService")}>
+        <Card title={ "Количество клиентов по услуге"
+            // translate("dashboard.countClietsByService")
+            }>
 
             {isLoading ? (
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 280 }}>
@@ -176,22 +176,6 @@ export const PieChartServices = ({ range }: { range: [Dayjs, Dayjs] }) => {
                                 ))}
                             </Bar>
                         </BarChart>
-                        {/* <PieChart width={400} height={400}>
-                            <Pie
-                                data={chartData}
-                                cx="50%"
-                                cy="50%"
-                                labelLine={renderCustomizedLabel}
-                                label={({ name, value }) => `${name}: ${value}`}
-                                outerRadius={110}
-                                fill="#8884d8"
-                                dataKey="value"
-                            >
-                                {chartData.map((entry, index) => (
-                                    <Cell key={`cell-${entry.name}`} fill={COLORS[index % COLORS.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart> */}
                     </ResponsiveContainer>
                 </div>
             )}

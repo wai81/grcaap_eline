@@ -4,7 +4,7 @@ import { StatusTopis } from "../../components/staus-topics";
 import { Card, Col, Row } from "antd";
 import { WaitItems } from "../../components/wait_items";
 import { HandingItems } from "../../components/handling_items";
-import { PieChartServices } from "../../components/charts/pieChartService";
+import { BarChartServicesCount } from "../../components/charts/barChartServiceCount";
 
 export const DashboardPage: React.FC = () => {
     const API_URL = useApiUrl();

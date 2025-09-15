@@ -18,7 +18,7 @@ from app.models.item import ItemGroup, Item
 from app.models.item_status import ItemStatus
 from app.models.item_staus_type import ItemStatusType
 from app.models.topic import Topic
-from app.schemas.item import ItemsGroupByTopic, ItemsGroupByTopicDate
+from app.schemas.item import ItemsGroupByTopic, ItemsGroupByTopicDate, ItemsGroupByUserModified
 
 router = APIRouter()
 
@@ -73,7 +73,6 @@ async def count_created_items_by_topic_until(*,
                                                  ItemsGroupByTopicFilter),
                                              db: AsyncSession = Depends(get_db)
                                              ) -> List[ItemsGroupByTopicDate]:
-    ts_col = Item.created_at
     filtered_q = select(Item)
     filtered_q = group_filter.filter(filtered_q)
     filtered_subq = filtered_q.subquery()
@@ -111,6 +110,52 @@ async def count_created_items_by_topic_until(*,
         output.append(ItemsGroupByTopicDate(
             create_at=row["datetime_hour"],
             name=row["name_ru"],
+            count=row["count"]
+        ))
+
+    return output
+
+
+@router.get("/count_complete_item_user",
+            response_model=List[ItemsGroupByUserModified],
+            status_code=200)
+async def count_complete_item_user_until(*,
+                                         group_filter: ItemsGroupByTopicFilter = FilterDepends(
+                                             ItemsGroupByTopicFilter),
+                                         db: AsyncSession = Depends(get_db)
+                                         ) -> List[ItemsGroupByUserModified]:
+    filtered_q = select(Item)
+    filtered_q = group_filter.filter(filtered_q)
+    # ) Добавляем JOIN к Topic и фильтр активности
+    filtered_q = (
+        filtered_q
+        .join(Topic, Item.topic_id == Topic.id)
+        .where(
+            Topic.is_active.is_(True),
+            Item.modified_by.is_not(None),  # исключаем NULL
+            func.trim(Item.modified_by) != ""  # исключаем пустые/пробельные строки
+        )
+        .with_only_columns(  # оставляем только нужные во внешнем уровне поля
+            Item.id,
+            Item.modified_by,
+        )
+    )
+    filtered_subq = filtered_q.subquery()
+
+    agg_q = (
+        select(
+            filtered_subq.c.modified_by.label("modified_by"),
+            func.count(filtered_subq.c.id).label("count"),
+        )
+        .group_by(filtered_subq.c.modified_by)
+        .order_by(asc(filtered_subq.c.modified_by))
+    )
+    res = await db.execute(agg_q)
+    rows = res.mappings().all()
+    output: List[ItemsGroupByUserModified] = []
+    for row in rows:
+        output.append(ItemsGroupByUserModified(
+            modified_by=row["modified_by"],
             count=row["count"]
         ))
 

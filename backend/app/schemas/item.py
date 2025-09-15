@@ -69,3 +69,10 @@ class ItemsGroupByTopicDate(BaseModel):
     count: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class ItemsGroupByUserModified(BaseModel):
+    modified_by: Optional[str]
+    count: int
+
+    model_config = ConfigDict(from_attributes=True)

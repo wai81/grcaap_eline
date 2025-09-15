@@ -6,7 +6,7 @@ import { Card, Col, DatePicker, Input, Row, Select, Space, Table, theme, Typogra
 import { PaginationTotal } from "../../components/paginationTotal";
 import dayjs, { Dayjs } from "dayjs";
 import { ITopic } from "../../interfaces/topic";
-import { BarChartServicesCount } from "../../components/charts/barChartServiceCount";
+import { BarChartTopicsCount } from "../../components/charts/barChartTopicsCount";
 import { useState } from "react";
 import { LineChartServicesCountByDaytetime } from "../../components/charts/lineChartServiceCountAtCreateDateTime";
 import { BarChartCountClosetItemsAtUser } from "../../components/charts/barChartCountClosedUser"
@@ -106,15 +106,15 @@ export const ItemsList = () => {
                 <Col md={24}>
                     <Row gutter={[16, 16]}>
                         <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <BarChartServicesCount range={range} />
+                            <BarChartTopicsCount range={range} />
                         </Col>
                         <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <LineChartServicesCountByDaytetime range={range}/>
+                            <LineChartServicesCountByDaytetime range={range} />
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>
                         <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <BarChartCountClosetItemsAtUser  range={range}/>
+                            <BarChartCountClosetItemsAtUser range={range} />
                         </Col>
                         <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
                             <Card title={translate("dashboard.countClientsByDatte")}>

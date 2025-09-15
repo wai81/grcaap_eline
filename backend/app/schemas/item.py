@@ -61,3 +61,11 @@ class ItemsGroupByTopic(BaseModel):
     count: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class ItemsGroupByTopicDate(BaseModel):
+    name: str
+    create_at: datetime
+    count: int
+
+    model_config = ConfigDict(from_attributes=True)

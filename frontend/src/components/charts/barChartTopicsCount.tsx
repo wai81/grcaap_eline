@@ -1,11 +1,11 @@
 import { useApiUrl, useCustom, useTranslate } from '@refinedev/core';
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import dayjs, { Dayjs } from "dayjs";
-import { Card,  Empty, Spin } from 'antd';
+import { Card, Empty, Spin } from 'antd';
 import { useMemo } from 'react';
 
 
-export const BarChartServicesCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
+export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
     const API_URL = useApiUrl();
     const translate = useTranslate();
     const now = dayjs();
@@ -13,7 +13,7 @@ export const BarChartServicesCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
 
 
     const { data: countItemByService, isLoading, isError, error } = useCustom({
-        url: `${API_URL}/status/grop_by_services`,
+        url: `${API_URL}/analytic/count_by_topics`,
         method: 'get',
         config: {
             filters: [
@@ -27,12 +27,13 @@ export const BarChartServicesCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
                         range[1].endOf("day").format('YYYY-MM-DD HH:mm:ss'),
                     ],
                 }
-            ]
+            ],
         }
     })
 
     const raw = countItemByService?.data ?? [];
-    const activeOnly = (raw ?? []).filter((item: any) => item?.topic?.is_active);
+    //const activeOnly = (raw ?? []).filter((item: any) => item?.topic?.is_active);
+    const activeOnly = raw
 
     const chartData = useMemo(() => {
         if (!Array.isArray(activeOnly)) return [];
@@ -127,9 +128,9 @@ export const BarChartServicesCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
     };
 
     return (
-        <Card title={ "Количество клиентов по услуге"
+        <Card title={"Количество клиентов по услуге"
             // translate("dashboard.countClietsByService")
-            }>
+        }>
 
             {isLoading ? (
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 280 }}>

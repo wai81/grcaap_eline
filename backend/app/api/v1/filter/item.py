@@ -39,3 +39,16 @@ class ItemsCustomFilter(Filter):
 
     class Config:
         populate_by_name = True
+
+
+class ItemsGroupByTopicFilter(Filter):
+    topic_id__in: Optional[list[int]] = Field(default=None)
+    created_at__gte: Optional[datetime] = Field(alias='created_at_gte', default=None)
+    created_at__lte: Optional[datetime] = Field(alias='created_at_lte', default=None)
+
+    class Constants(Filter.Constants):
+        model = Item
+        search_model_fields = ["generated_number"]
+
+    class Config:
+        populate_by_name = True

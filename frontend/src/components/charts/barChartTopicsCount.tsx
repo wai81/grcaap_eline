@@ -21,8 +21,6 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
                     field: "created_at",
                     operator: "between",
                     value: [
-                        //     now.startOf("week").format('YYYY-MM-DD HH:mm:ss'),
-                        //     now.endOf("day").format('YYYY-MM-DD HH:mm:ss'),
                         range[0].startOf("day").format('YYYY-MM-DD HH:mm:ss'),
                         range[1].endOf("day").format('YYYY-MM-DD HH:mm:ss'),
                     ],
@@ -168,7 +166,8 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
                                 tickMargin={8}
                             />
                             <YAxis />
-                            <Tooltip />
+                            <Tooltip
+                                formatter={(value) => [value as number, "Количество"]} />
                             {/* <Legend /> */}
                             <CartesianGrid strokeDasharray="3 3" />
                             <Bar dataKey="value">

@@ -1,137 +1,200 @@
-import { useApiUrl, useCustom, useTranslate } from '@refinedev/core';
+import { getDefaultFilter, useApiUrl, useCustom, useTranslate } from '@refinedev/core';
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import dayjs, { Dayjs } from "dayjs";
-import { Card, DatePicker, Empty, Space, Spin } from 'antd';
+import { Card, Empty, Select, Space, Spin } from 'antd';
 import { useMemo, useState } from 'react';
+import { useSelect } from '@refinedev/antd';
+import { ITopic } from '../../interfaces/topic';
 
-const { RangePicker } = DatePicker;
 
+interface IItemsCountByDate {
+    name: string,
+    create_at: string,
+    count: number
+}
 
-const initialData = [
-  { name: 1, cost: 4.11, impression: 100 },
-  { name: 2, cost: 2.39, impression: 120 },
-  { name: 3, cost: 1.37, impression: 150 },
-  { name: 4, cost: 1.16, impression: 180 },
-  { name: 5, cost: 2.29, impression: 200 },
-  { name: 6, cost: 3, impression: 499 },
-  { name: 7, cost: 0.53, impression: 50 },
-  { name: 8, cost: 2.52, impression: 100 },
-  { name: 9, cost: 1.79, impression: 200 },
-  { name: 10, cost: 2.94, impression: 222 },
-  { name: 11, cost: 4.3, impression: 210 },
-  { name: 12, cost: 4.41, impression: 300 },
-  { name: 13, cost: 2.1, impression: 50 },
-  { name: 14, cost: 8, impression: 190 },
-  { name: 15, cost: 0, impression: 300 },
-  { name: 16, cost: 9, impression: 400 },
-  { name: 17, cost: 3, impression: 200 },
-  { name: 18, cost: 2, impression: 50 },
-  { name: 19, cost: 3, impression: 100 },
-  { name: 20, cost: 7, impression: 100 },
-];
-
-const getAxisYDomain = (from, to, ref, offset) => {
-  const refData = initialData.slice(from - 1, to);
-  let [bottom, top] = [refData[0][ref], refData[0][ref]];
-  refData.forEach((d) => {
-    if (d[ref] > top) top = d[ref];
-    if (d[ref] < bottom) bottom = d[ref];
-  });
-
-  return [(bottom | 0) - offset, (top | 0) + offset];
-};
-
-const initialState = {
-  data: initialData,
-  left: 'dataMin',
-  right: 'dataMax',
-  refAreaLeft: '',
-  refAreaRight: '',
-  top: 'dataMax+1',
-  bottom: 'dataMin-1',
-  top2: 'dataMax+20',
-  bottom2: 'dataMin-20',
-  animation: true,
+type ZoomState = {
+    left: number | "dataMin";
+    right: number | "dataMax";
+    refAreaLeft: number | null;
+    refAreaRight: number | null;
+    top: number | "dataMax+1";
+    bottom: number | "dataMin-1";
 };
 
 export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Dayjs] }) => {
     const API_URL = useApiUrl();
     const translate = useTranslate();
-    const now = dayjs();
 
-    const [state, setState] = useState(initialState);  
-    
+    const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([]);
+
+    const { data: countItems, isLoading, isError, error } = useCustom<IItemsCountByDate[]>({
+        url: `${API_URL}/analytic/count_created_items_by_topic`,
+        method: 'get',
+        config: {
+            filters: [
+                {
+                    field: "created_at",
+                    operator: "between",
+                    value: [
+                        range[0].startOf("day").format('YYYY-MM-DD HH:mm:ss'),
+                        range[1].endOf("day").format('YYYY-MM-DD HH:mm:ss'),
+                    ],
+                },
+                {
+                    field: "topic_id",      // используйте точное поле бэкенда
+                    operator: "in",
+                    value: selectedTopicIds,
+                }
+            ],
+        }
+    })
+
+    const rawData = countItems?.data ?? [];
+
+    // Нормализация: переводим create_at в миллисекунды epoch и сортируем
+    const { points, topics } = useMemo(() => {
+        const byTs: Record<number, Record<string, number>> = {};
+        const topicSet = new Set<string>();
+
+        for (const row of rawData ?? []) {
+            const ts = dayjs(row.create_at).isValid() ? dayjs(row.create_at).valueOf() : NaN;
+            if (!Number.isFinite(ts)) continue;
+
+            const topic = String(row.name ?? "").trim();
+            if (!topic) continue;
+
+            const count = Number(row.count ?? 0);
+            if (!byTs[ts]) byTs[ts] = { ts };
+            byTs[ts][topic] = (byTs[ts][topic] ?? 0) + count;
+            topicSet.add(topic);
+        }
+
+        const pts = Object.values(byTs).sort((a, b) => a.ts - b.ts);
+        const topicsArr = Array.from(topicSet);
+
+        // Фильтрация точек, где все услуги == 0
+        const filteredPts = pts.filter((p) => {
+            let sum = 0;
+            for (const t of topicsArr) sum += Number(p[t] ?? 0);
+            return sum > 0;
+        });
+
+        return { points: filteredPts, topics: topicsArr };
+    }, [rawData]);
+
+    const [state, setState] = useState<ZoomState>({
+        left: "dataMin",
+        right: "dataMax",
+        refAreaLeft: null,
+        refAreaRight: null,
+        top: "dataMax+1",
+        bottom: "dataMin-1",
+    });
+
+    const getAxisYDomainAllSeries = (fromTs: number, toTs: number, series: string[], offset: number) => {
+        const slice = points.filter((d: any) => d.ts >= fromTs && d.ts <= toTs);
+        if (slice.length === 0) return [0, 1];
+
+        let bottom = Infinity;
+        let top = -Infinity;
+
+        for (const d of slice) {
+            for (const key of series) {
+                const val = Number(d[key] ?? 0);
+                if (val > top) top = val;
+                if (val < bottom) bottom = val;
+            }
+        }
+
+        if (!Number.isFinite(bottom) || !Number.isFinite(top)) return [0, 1];
+        return [Math.floor(bottom - offset), Math.ceil(top + offset)];
+    };
+
     const zoom = () => {
         let { refAreaLeft, refAreaRight } = state;
-        const { data } = state;
 
-        if (refAreaLeft === refAreaRight || refAreaRight === '') {
-        setState((prevState) => ( {
-            ...prevState,
-            refAreaLeft: '',
-            refAreaRight: '',
-        }));
-        return;
-        };
+        if (refAreaLeft == null || refAreaRight == null || refAreaLeft === refAreaRight) {
+            setState((prev) => ({ ...prev, refAreaLeft: null, refAreaRight: null }));
+            return;
+        }
 
-        // xAxis domain
         if (refAreaLeft > refAreaRight) [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
-        // yAxis domain
-        const [bottom, top] = getAxisYDomain(refAreaLeft, refAreaRight, 'cost', 1);
-        const [bottom2, top2] = getAxisYDomain(refAreaLeft, refAreaRight, 'impression', 50);
+        const [bottom, top] = getAxisYDomainAllSeries(refAreaLeft, refAreaRight, topics, 1);
 
-        setState((prevState) => ({
-        ...prevState,
-        refAreaLeft: '',
-        refAreaRight: '',
-        data: data.slice(),
-        left: refAreaLeft,
-        right: refAreaRight,
-        bottom,
-        top,
-        bottom2,
-        top2,
+        setState((prev) => ({
+            ...prev,
+            refAreaLeft: null,
+            refAreaRight: null,
+            left: refAreaLeft!,
+            right: refAreaRight!,
+            bottom,
+            top,
         }));
     };
 
     const zoomOut = () => {
-        const { data } = state;
-        setState((prevState) => ({
-        ...prevState,
-        data: data.slice(),
-        refAreaLeft: '',
-        refAreaRight: '',
-        left: 'dataMin',
-        right: 'dataMax',
-        top: 'dataMax+1',
-        bottom: 'dataMin',
-        top2: 'dataMax+50',
-        bottom2: 'dataMin+50',
+        setState((prev) => ({
+            ...prev,
+            refAreaLeft: null,
+            refAreaRight: null,
+            left: "dataMin",
+            right: "dataMax",
+            top: "dataMax+1",
+            bottom: "dataMin-1",
         }));
     };
 
-    const {
-        data,
-        refAreaLeft,
-        refAreaRight,
-        left,
-        right,
-        top,
-        bottom,
-        top2,
-        bottom2,
-    } = state;
+    const palette = [
+        "#4F46E5", // Indigo 600
+        "#10B981", // Emerald 500
+        "#F59E0B", // Amber 500
+        "#EF4444", // Red 500
+        "#3B82F6", // Blue 500
+        "#8B5CF6", // Violet 500
+        "#14B8A6", // Teal 500
+        "#F43F5E", // Rose 500
+        "#22C55E", // Green 500
+        "#A855F7", // Purple 500
+        "#FB923C", // Orange 400
+        "#0EA5E9", // Sky 500
+        "#84CC16", // Lime 500
+        "#DC2626", // Red 600
+        "#6366F1", // Indigo 500
+    ];
 
+    const { selectProps: topicsSelectProps } = useSelect<ITopic>({
+        resource: "topic",
+        optionLabel: "name_ru",
+        optionValue: "id",
+        sorters: [{ field: "name_ru", order: "asc" }],
+        //defaultValue: getDefaultFilter("topic_id", filters, "eq"),
+        pagination: { pageSize: 50 },
+    });
 
+    const seletedServices = (
+        <Select
+            mode="multiple"
+            allowClear
+            style={{ minWidth: 320, marginRight: 8 }}
+            placeholder="Выберите услуги"
+            value={selectedTopicIds}
+            onChange={(vals) => setSelectedTopicIds(vals)}
+            options={topicsSelectProps.options}
+        />
+    );
 
     return (
         <Card title={
             "Количество клиентов на дату"
             //translate("dashboard.countClietsByService")
-            }>
 
-            {/* {isLoading ? (
+        }
+            extra={seletedServices}
+        >
+
+            {isLoading ? (
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 280 }}>
                     <Spin />
                 </div>
@@ -139,43 +202,75 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
                 <div style={{ padding: 16, color: "red" }}>
                     Ошибка: {String((error as any)?.message ?? "unknown")}
                 </div>
-            ) : chartData.length === 0 ? (
+            ) : points.length === 0 ? (
                 <div style={{ height: 280, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Empty description="Нет данных за выбранный период" />
                 </div>
-            ) : ( */}
+            ) : (
                 <div style={{ width: "100%", height: 350 }}>
-                    <div className="highlight-bar-charts" style={{ userSelect: 'none', width: '100%' }}>
-                        <button type="button" className="btn update" onClick={zoomOut}>
-                              Zoom Out
-                        </button>  
+                    <div className="highlight-bar-charts" style={{ userSelect: 'none', width: '100%', marginBottom: 8 }}>
+                        <button type="button" className="btn update" onClick={zoomOut}>Zoom Out</button>
                     </div>
 
                     <ResponsiveContainer width="100%" height="90%">
-                       <LineChart
+                        <LineChart
                             width={800}
                             height={250}
-                            data={data}
-                            onMouseDown={(e) => setState(prevState => ({ ...prevState, refAreaLeft: e.activeLabel }))}
-                            onMouseMove={(e) => state.refAreaLeft && setState(prevState => ({ ...prevState, refAreaRight: e.activeLabel }))}
+                            data={points}
+                            onMouseDown={(e: any) => {
+                                if (e && typeof e.activeLabel === "number") {
+                                    setState((prev) => ({ ...prev, refAreaLeft: e.activeLabel as number }));
+                                }
+                            }}
+                            onMouseMove={(e: any) => {
+                                if (state.refAreaLeft != null && e && typeof e.activeLabel === "number") {
+                                    setState((prev) => ({ ...prev, refAreaRight: e.activeLabel as number }));
+                                }
+                            }}
                             onMouseUp={zoom}
-                            >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis allowDataOverflow dataKey="name" domain={[left, right]} type="number" />
-                            <YAxis allowDataOverflow domain={[bottom, top]} type="number" yAxisId="1" />
-                            <YAxis orientation="right" allowDataOverflow domain={[bottom2, top2]} type="number" yAxisId="2" />
-                            <Tooltip />
-                            <Line yAxisId="1" type="natural" dataKey="cost" stroke="#8884d8" animationDuration={300} />
-                            <Line yAxisId="2" type="natural" dataKey="impression" stroke="#82ca9d" animationDuration={300} />
+                        >
 
-                            {refAreaLeft && refAreaRight ? (
-                                <ReferenceArea yAxisId="1" x1={refAreaLeft} x2={refAreaRight} strokeOpacity={0.3} />
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis
+                                dataKey="ts"
+                                type="category"
+                                domain={[state.left as any, state.right as any]}
+                                tickFormatter={(ts) => dayjs(ts).format("MM-DD HH:mm")}
+                            />
+                            <YAxis
+                                allowDataOverflow
+                                domain={[state.bottom as any, state.top as any]}
+                                type="number"
+                                yAxisId="1"
+                            />
+                            <Tooltip
+                                labelFormatter={(ts) => dayjs(ts as number).format("YYYY-MM-DD HH:mm")}
+                                formatter={(value: number, name: string) => {
+                                    // name — это dataKey текущей линии, т.е. строка с названием услуги
+                                    return [value, name]; // [значение, подпись серии]
+                                }}
+                            />
+                            {topics.map((topic, idx) => (
+                                <Line
+                                    key={topic}
+                                    yAxisId="1"
+                                    type="monotone"
+                                    dataKey={topic}
+                                    //stroke="#8884d8"
+                                    stroke={palette[idx % palette.length]}
+                                    animationDuration={300}
+                                    dot={false}
+                                />
+                            ))}
+
+                            {state.refAreaLeft != null && state.refAreaRight != null ? (
+                                <ReferenceArea yAxisId="1" x1={state.refAreaLeft} x2={state.refAreaRight} strokeOpacity={0.3} />
                             ) : null}
                         </LineChart>
                     </ResponsiveContainer>
-                  
+
                 </div>
-            {/* )} */}
+            )}
         </Card>
     );
 }

@@ -46,22 +46,36 @@ export const BarChartCountClosetItemsAtUser = ({ range }: { range: [Dayjs, Dayjs
     return base;
   }, [range, selectedTopicIds]);
 
-  const { data: countItems, isLoading, isError, error } = useCustom<IItemsCountCloset>({
+  const {
+    query: {
+      isLoading,
+      isError,
+      error
+    },
+
+    result
+  } = useCustom<IItemsCountCloset>({
     url: `${API_URL}/analytic/count_complete_item_user`,
     method: 'get',
     config: { filters }
   })
 
+  const raw = result?.data as any;
+  const list =
+    Array.isArray(raw) ? raw :
+      Array.isArray(raw?.data) ? raw.data :
+        Array.isArray(raw?.items) ? raw.items :
+          [];
   // Сортируем по count убыванию, защищаемся от некорректных значений
   const data = useMemo<IItemsCountCloset[]>(() => {
-    const rows = countItems?.data ?? [];
+    const rows = list;
     return [...rows]
       .map(r => ({
         modified_by: r.modified_by ?? "",
         count: Number.isFinite(Number(r.count)) ? Number(r.count) : 0,
       }))
       .sort((a, b) => b.count - a.count);
-  }, [countItems]);
+  }, [list]);
 
   const { selectProps: topicsSelectProps } = useSelect<ITopic>({
     resource: "topic",

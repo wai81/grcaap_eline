@@ -11,7 +11,17 @@ export const StatusTopis = ({ }) => {
     const API_URL = useApiUrl();
     const [time, setTime] = useState(new Date());
     const translate = useTranslate();
-    const { data: listTopics, isLoading, hasNextPage, fetchNextPage, } = useInfiniteList<ITopic>({
+    const {
+        query: {
+            isLoading,
+            fetchNextPage
+        },
+
+        result: {
+            data: listTopics,
+            hasNextPage
+        }
+    } = useInfiniteList<ITopic>({
         resource: "topic",
         config: {
             filters: [

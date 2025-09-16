@@ -4,17 +4,10 @@ import dayjs, { Dayjs } from "dayjs";
 import { Card, Empty, Spin } from 'antd';
 import { ITimeByTopic } from '../../interfaces/topic';
 
-
-
-
 export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
     const API_URL = useApiUrl();
     const translate = useTranslate();
-    const now = dayjs();
-
-
-
-    const { data: countItem, isLoading, isError, error } = useCustom<ITimeByTopic[]>({
+    const { query: { isLoading, isError, error }, result } = useCustom<ITimeByTopic[]>({
         url: `${API_URL}/analytic/avg_times_by_topic`,
         method: 'get',
         config: {
@@ -31,9 +24,16 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
         }
     })
 
-    const rows = (countItem?.data ?? []).map((r) => ({
-        name: r.topic.name_ru,
-        value: r.count,
+    const raw = result?.data as any;
+    const list =
+        Array.isArray(raw) ? raw :
+            Array.isArray(raw?.data) ? raw.data :
+                Array.isArray(raw?.items) ? raw.items :
+                    [];
+
+    const rows = list.map((r: { topic: { name_ru: string; }; count: number; }) => ({
+        name: r.topic.name_ru ?? "",
+        value: r.count ?? "",
     }));
 
 
@@ -164,8 +164,11 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
                             {/* <Legend /> */}
                             <CartesianGrid strokeDasharray="3 3" />
                             <Bar dataKey="value">
-                                {rows.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length] ?? "#6366F1"} />
+                                {rows.map((entry: any, index: any) => (
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={COLORS[index % COLORS.length] ?? "#6366F1"}
+                                    />
                                 ))}
                             </Bar>
                         </BarChart>

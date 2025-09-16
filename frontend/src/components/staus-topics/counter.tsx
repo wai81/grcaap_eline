@@ -11,7 +11,14 @@ export const CounterTopic = ({ id }: CounterTopicProps) => {
     const API_URL = useApiUrl();
 
     // refetchInterval в миллисекундах (5000 = 5 секунд)
-    const { data, isLoading, error } = useCustom<ITopicCount>({
+    const {
+        query: {
+            isLoading,
+            error
+        },
+
+        result: data
+    } = useCustom<ITopicCount>({
         url: `${API_URL}/topic/line/${id}`,
         method: "get",
         queryOptions: {

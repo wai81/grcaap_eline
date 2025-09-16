@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  useRouterContext,
-  useRouterType,
   useLink,
   useRefineOptions,
 } from "@refinedev/core";
@@ -21,14 +19,12 @@ export const ThemedTitleV2: React.FC<RefineLayoutThemedTitleProps> = ({
   const text =
     typeof textFromProps === "undefined" ? defaultText : textFromProps;
   const { token } = theme.useToken();
-  const routerType = useRouterType();
-  const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
 
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
+  const Link = useLink();
+
 
   return (
-    <ActiveLink
+    <Link
       to="/"
       style={{
         display: "inline-block",
@@ -65,6 +61,6 @@ export const ThemedTitleV2: React.FC<RefineLayoutThemedTitleProps> = ({
           </Typography.Title>
         )}
       </Space>
-    </ActiveLink>
+    </Link>
   );
 };

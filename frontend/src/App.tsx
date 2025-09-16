@@ -18,22 +18,11 @@ import { dataProvider } from "./providers/data-provider";
 import { ConfigProvider, App as AntdApp } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
+
 import { ThemedLayoutV2 } from "./components/layout";
 import { ThemedTitleV2 } from "./components/layout/title";
-import { ThemedSiderV2 } from "./components/layout/sider";
-import { ThemedHeaderV2 } from "./components/layout/header";
+import { ThemedSider } from "./components/layout/sider";
+import { ThemedHeader } from "./components/layout/header";
 import { DashboardOutlined, PieChartOutlined } from "@ant-design/icons";
 import { DashboardPage } from "./pages/dashboard";
 import { ItemsList, ItemsShow } from "./pages/items";
@@ -46,7 +35,7 @@ function App() {
   const { t, i18n } = useTranslation();
 
   const i18nProvider: I18nProvider = {
-    translate: (key: string, options?: any) => t(key, options),
+    translate: (key: string, options?: any) => String(t(key, options)),
     changeLocale: (lang: string) => i18n.changeLanguage(lang),
     getLocale: () => i18n.language,
   };
@@ -83,8 +72,7 @@ function App() {
                   options={{
                     syncWithLocation: false,
                     warnWhenUnsavedChanges: true,
-                    useNewQueryKeys: true,
-                    projectId: "EGaGeR-GWoBY0-LRzZ9A",
+                    projectId: "EGaGeR-GWoBY0-LRzZ9A"
                   }}
                 >
                   <Routes>
@@ -96,8 +84,8 @@ function App() {
                             icon={<img src="/images/logo.png" width={24} height={24} />}
                           />
                           )}
-                          Header={() => <ThemedHeaderV2 sticky />}
-                          Sider={(props) => <ThemedSiderV2 {...props} fixed />}
+                          Header={() => <ThemedHeader sticky />}
+                          Sider={(props) => <ThemedSider {...props} fixed />}
                         >
                           <Outlet />
                         </ThemedLayoutV2>
@@ -113,22 +101,6 @@ function App() {
                         <Route index element={<ItemsList />} />
                         <Route path=":id" element={<ItemsShow />} />
                       </Route>
-                      {/* <Route
-                      index
-                      element={<NavigateToResource resource="blog_posts" />}
-                    />
-                    <Route path="/blog-posts">
-                      <Route index element={<BlogPostList />} />
-                      <Route path="create" element={<BlogPostCreate />} />
-                      <Route path="edit/:id" element={<BlogPostEdit />} />
-                      <Route path="show/:id" element={<BlogPostShow />} />
-                    </Route>
-                    <Route path="/categories">
-                      <Route index element={<CategoryList />} />
-                      <Route path="create" element={<CategoryCreate />} />
-                      <Route path="edit/:id" element={<CategoryEdit />} />
-                      <Route path="show/:id" element={<CategoryShow />} />
-                    </Route> */}
                       <Route path="*" element={<ErrorComponent />} />
                     </Route>
                   </Routes>

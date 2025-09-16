@@ -21,7 +21,15 @@ export const BarChartAvgTimesByTopic = ({ range }: { range: [Dayjs, Dayjs] }) =>
 
 
 
-    const { data: countItem, isLoading, isError, error } = useCustom<ITimeByTopic[]>({
+    const {
+        query: {
+            isLoading,
+            isError,
+            error
+        },
+
+        result
+    } = useCustom<ITimeByTopic[]>({
         url: `${API_URL}/analytic/avg_times_by_topic`,
         method: 'get',
         config: {
@@ -38,7 +46,14 @@ export const BarChartAvgTimesByTopic = ({ range }: { range: [Dayjs, Dayjs] }) =>
         }
     })
 
-    const rows = (countItem?.data ?? []).map((r) => {
+    const raw = result?.data as any;
+    const list =
+        Array.isArray(raw) ? raw :
+            Array.isArray(raw?.data) ? raw.data :
+                Array.isArray(raw?.items) ? raw.items :
+                    [];
+
+    const rows = list.map((r: any) => {
         const waitSec = toNumber(r.avg_wait_seconds);
         const serviceSec = toNumber(r.avg_service_seconds);
         return {
@@ -106,9 +121,9 @@ export const BarChartAvgTimesByTopic = ({ range }: { range: [Dayjs, Dayjs] }) =>
                 <text transform="rotate(-60)" textAnchor="end" fill="#334155" fontSize={fontSize}>
                     {lines.map((line, idx) => (
                         // dy: 0 для первой строки и смещение вниз для следующих
-                        <tspan key={idx} x={0} dy={idx === 0 ? 0 : lineHeight}>
+                        (<tspan key={idx} x={0} dy={idx === 0 ? 0 : lineHeight}>
                             {line}
-                        </tspan>
+                        </tspan>)
                     ))}
                 </text>
             </g>

@@ -1,7 +1,7 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { IItems } from "../../interfaces/items";
 import { CreateButton, DateField, FilterDropdown, getDefaultSortOrder, List, rangePickerFilterMapper, useSelect, useTable } from "@refinedev/antd";
-import { getDefaultFilter, HttpError, useTranslate } from "@refinedev/core";
+import { getDefaultFilter, HttpError, LogicalFilter, useTranslate } from "@refinedev/core";
 import { Card, Col, DatePicker, Input, Row, Select, Space, Table, theme, Typography } from "antd";
 import { PaginationTotal } from "../../components/paginationTotal";
 import dayjs, { Dayjs } from "dayjs";
@@ -11,6 +11,7 @@ import { useState } from "react";
 import { LineChartServicesCountByDaytetime } from "../../components/charts/lineChartServiceCountAtCreateDateTime";
 import { BarChartCountClosetItemsAtUser } from "../../components/charts/barChartCountClosedUser"
 import { BarChartAvgTimesByTopic } from "../../components/charts/barChartAvgTimesByTopic";
+import { RangePickerProps } from "antd/es/date-picker";
 const { RangePicker } = DatePicker;
 
 export const ItemsList = () => {
@@ -60,25 +61,49 @@ export const ItemsList = () => {
     });
 
     // 4) Обработчик изменения периода: меняем состояние и обновляем фильтры таблицы
-    const onRangeChange = (vals: null | [Dayjs, Dayjs]) => {
-        if (!vals || !vals[0] || !vals[1]) return;
-        const start = vals[0].startOf("day");
-        const end = vals[1].endOf("day");
+    // const onRangeChange = (vals: null | [Dayjs, Dayjs]) => {
+    //     if (!vals || !vals[0] || !vals[1]) return;
+    //     const start = vals[0].startOf("day");
+    //     const end = vals[1].endOf("day");
+    //     setRange([start, end]);
+
+    //     // Обновляем фильтры таблицы, не теряя остальные фильтры
+    //     setFilters([
+    //         // сохраняем другие активные фильтры из текущего состояния
+    //         // ...((filters ?? []).filter((f) => f.field !== "created_at") as any[]),
+    //         {
+    //             field: "created_at",
+    //             operator: "between",
+    //             value: [
+    //                 start.format("YYYY-MM-DD HH:mm:ss"),
+    //                 end.format("YYYY-MM-DD HH:mm:ss"),
+    //             ],
+    //         },
+    //     ]);
+    // };
+    const onRangeChange: RangePickerProps["onChange"] = (dates, _dateStrings) => {
+        if (!dates || !dates[0] || !dates[1]) return;
+
+        const start = dates[0].startOf("day");
+        const end = dates[1].endOf("day");
+
         setRange([start, end]);
 
-        // Обновляем фильтры таблицы, не теряя остальные фильтры
-        setFilters([
-            // сохраняем другие активные фильтры из текущего состояния
-            // ...((filters ?? []).filter((f) => f.field !== "created_at") as any[]),
-            {
+        setFilters((prev) => {
+            const logicalPrev = (prev ?? []) as LogicalFilter[];
+            const rest = logicalPrev.filter((f) => f.field !== "created_at");
+
+            const createdAtFilter: LogicalFilter = {
                 field: "created_at",
                 operator: "between",
                 value: [
                     start.format("YYYY-MM-DD HH:mm:ss"),
                     end.format("YYYY-MM-DD HH:mm:ss"),
                 ],
-            },
-        ]);
+            };
+
+            return [...rest, createdAtFilter];
+        });
     };
 
     return (
@@ -111,7 +136,6 @@ export const ItemsList = () => {
                         </Col>
                         <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
                             <BarChartAvgTimesByTopic range={range} />
-
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>

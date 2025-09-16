@@ -1,18 +1,16 @@
 import React, { useContext } from "react";
 import {
-  pickNotDeprecated,
-  useActiveAuthProvider,
   useGetIdentity,
   useGetLocale,
   useSetLocale,
 } from "@refinedev/core";
 import { Layout as AntdLayout, Typography, Avatar, Space, theme, Switch, Menu, Dropdown, Button } from "antd";
-import type { RefineThemedLayoutV2HeaderProps } from "@refinedev/antd";
+import type { RefineThemedLayoutHeaderProps } from "@refinedev/antd";
 import { ColorModeContext } from "../../contexts/color-mode";
 import { useTranslation } from "react-i18next";
 import { DownOutlined } from "@ant-design/icons";
 
-export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
+export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
   sticky,
 }) => {
   const { token } = theme.useToken();
@@ -20,10 +18,7 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   const changeLocale = useSetLocale();
   const locale = useGetLocale();
   const { mode, setMode } = useContext(ColorModeContext);
-  const authProvider = useActiveAuthProvider();
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { data: user } = useGetIdentity();
 
   const shouldRenderHeader = user && (user.name || user.avatar);
 

@@ -27,7 +27,15 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
 
     const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([]);
 
-    const { data: countItems, isLoading, isError, error } = useCustom<IItemsCountByDate[]>({
+    const {
+        query: {
+            isLoading,
+            isError,
+            error
+        },
+
+        result
+    } = useCustom<IItemsCountByDate[]>({
         url: `${API_URL}/analytic/count_created_items_by_topic`,
         method: 'get',
         config: {
@@ -49,12 +57,18 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
         }
     })
 
-    const rawData = countItems?.data ?? [];
+    const raw = result?.data as any;
+    const list =
+        Array.isArray(raw) ? raw :
+            Array.isArray(raw?.data) ? raw.data :
+                Array.isArray(raw?.items) ? raw.items :
+                    [];
+
 
     // Нормализация: переводим create_at в миллисекунды epoch и сортируем
     // Нормализация и агрегация по ts (на случай дублей create_at)
     const points = useMemo(() => {
-        const rows = countItems?.data ?? [];
+        const rows = list;
         const map = new Map<number, number>(); // ts -> sum(count)
 
         for (const row of rows) {
@@ -67,7 +81,7 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
         return Array.from(map.entries())
             .map(([ts, value]) => ({ ts, value }))
             .sort((a, b) => a.ts - b.ts);
-    }, [countItems]);
+    }, [list]);
 
     const [state, setState] = useState<ZoomState>({
         left: "dataMin",

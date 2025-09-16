@@ -22,7 +22,6 @@ export const generateFilter = (filters?: CrudFilters) => {
         }
 
         if(operator==="between" && Array.isArray(value) && value.length === 2){
-          console.log(value);
           const [startDate, endDate] = value; 
           // queryFilters[`${field}_gte`] = new Date(startDate).toISOString().slice(0, 19); // Фильтр для начала диапазона  
           // queryFilters[`${field}_lte`] = new Date(endDate).toISOString().slice(0, 19);   // Фильтр для конца диапазона  

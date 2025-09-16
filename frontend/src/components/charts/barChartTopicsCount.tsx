@@ -1,8 +1,10 @@
 import { useApiUrl, useCustom, useTranslate } from '@refinedev/core';
-import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import dayjs, { Dayjs } from "dayjs";
 import { Card, Empty, Spin } from 'antd';
-import { useMemo } from 'react';
+import { ITimeByTopic } from '../../interfaces/topic';
+
+
 
 
 export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
@@ -12,8 +14,8 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
 
 
 
-    const { data: countItemByService, isLoading, isError, error } = useCustom({
-        url: `${API_URL}/analytic/count_by_topics`,
+    const { data: countItem, isLoading, isError, error } = useCustom<ITimeByTopic[]>({
+        url: `${API_URL}/analytic/avg_times_by_topic`,
         method: 'get',
         config: {
             filters: [
@@ -29,20 +31,11 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
         }
     })
 
-    const raw = countItemByService?.data ?? [];
-    //const activeOnly = (raw ?? []).filter((item: any) => item?.topic?.is_active);
-    const activeOnly = raw
+    const rows = (countItem?.data ?? []).map((r) => ({
+        name: r.topic.name_ru,
+        value: r.count,
+    }));
 
-    const chartData = useMemo(() => {
-        if (!Array.isArray(activeOnly)) return [];
-
-        return activeOnly.map((item: any) => ({
-            name: item?.topic?.name_ru ?? "—",
-            value: Number(item?.count ?? 0),
-            // можно сохранить доп. поля для тултипа
-            id: item?.topic?.id,
-        }));
-    }, [raw]);
 
     const COLORS = [
         "#4F46E5", // Indigo 600
@@ -138,7 +131,7 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
                 <div style={{ padding: 16, color: "red" }}>
                     Ошибка: {String((error as any)?.message ?? "unknown")}
                 </div>
-            ) : chartData.length === 0 ? (
+            ) : rows.length === 0 ? (
                 <div style={{ height: 280, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Empty description="Нет данных за выбранный период" />
                 </div>
@@ -148,7 +141,7 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={chartData}
+                            data={rows}
                             margin={{
                                 top: 5,
                                 right: 30,
@@ -171,7 +164,7 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
                             {/* <Legend /> */}
                             <CartesianGrid strokeDasharray="3 3" />
                             <Bar dataKey="value">
-                                {chartData.map((entry, index) => (
+                                {rows.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length] ?? "#6366F1"} />
                                 ))}
                             </Bar>

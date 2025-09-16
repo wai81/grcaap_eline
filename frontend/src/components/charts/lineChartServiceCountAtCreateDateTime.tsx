@@ -8,7 +8,6 @@ import { ITopic } from '../../interfaces/topic';
 
 
 interface IItemsCountByDate {
-    name: string,
     create_at: string,
     count: number
 }
@@ -53,35 +52,22 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
     const rawData = countItems?.data ?? [];
 
     // Нормализация: переводим create_at в миллисекунды epoch и сортируем
-    const { points, topics } = useMemo(() => {
-        const byTs: Record<number, Record<string, number>> = {};
-        const topicSet = new Set<string>();
+    // Нормализация и агрегация по ts (на случай дублей create_at)
+    const points = useMemo(() => {
+        const rows = countItems?.data ?? [];
+        const map = new Map<number, number>(); // ts -> sum(count)
 
-        for (const row of rawData ?? []) {
+        for (const row of rows) {
             const ts = dayjs(row.create_at).isValid() ? dayjs(row.create_at).valueOf() : NaN;
             if (!Number.isFinite(ts)) continue;
-
-            const topic = String(row.name ?? "").trim();
-            if (!topic) continue;
-
-            const count = Number(row.count ?? 0);
-            if (!byTs[ts]) byTs[ts] = { ts };
-            byTs[ts][topic] = (byTs[ts][topic] ?? 0) + count;
-            topicSet.add(topic);
+            const v = Number(row.count ?? 0);
+            map.set(ts, (map.get(ts) ?? 0) + v);
         }
 
-        const pts = Object.values(byTs).sort((a, b) => a.ts - b.ts);
-        const topicsArr = Array.from(topicSet);
-
-        // Фильтрация точек, где все услуги == 0
-        const filteredPts = pts.filter((p) => {
-            let sum = 0;
-            for (const t of topicsArr) sum += Number(p[t] ?? 0);
-            return sum > 0;
-        });
-
-        return { points: filteredPts, topics: topicsArr };
-    }, [rawData]);
+        return Array.from(map.entries())
+            .map(([ts, value]) => ({ ts, value }))
+            .sort((a, b) => a.ts - b.ts);
+    }, [countItems]);
 
     const [state, setState] = useState<ZoomState>({
         left: "dataMin",
@@ -92,23 +78,20 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
         bottom: "dataMin-1",
     });
 
-    const getAxisYDomainAllSeries = (fromTs: number, toTs: number, series: string[], offset: number) => {
-        const slice = points.filter((d: any) => d.ts >= fromTs && d.ts <= toTs);
+    const getAxisYDomain = (fromTs: number, toTs: number, offset: number) => {
+        const slice = points.filter((d) => d.ts >= fromTs && d.ts <= toTs);
         if (slice.length === 0) return [0, 1];
 
         let bottom = Infinity;
         let top = -Infinity;
-
         for (const d of slice) {
-            for (const key of series) {
-                const val = Number(d[key] ?? 0);
-                if (val > top) top = val;
-                if (val < bottom) bottom = val;
-            }
+            const v = Number(d.value ?? 0);
+            if (v > top) top = v;
+            if (v < bottom) bottom = v;
         }
-
         if (!Number.isFinite(bottom) || !Number.isFinite(top)) return [0, 1];
-        return [Math.floor(bottom - offset), Math.ceil(top + offset)];
+        // небольшие поля
+        return [Math.max(0, Math.floor(bottom - offset)), Math.ceil(top + offset)];
     };
 
     const zoom = () => {
@@ -121,7 +104,7 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
 
         if (refAreaLeft > refAreaRight) [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
-        const [bottom, top] = getAxisYDomainAllSeries(refAreaLeft, refAreaRight, topics, 1);
+        const [bottom, top] = getAxisYDomain(refAreaLeft, refAreaRight, 1);
 
         setState((prev) => ({
             ...prev,
@@ -146,23 +129,7 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
         }));
     };
 
-    const palette = [
-        "#4F46E5", // Indigo 600
-        "#10B981", // Emerald 500
-        "#F59E0B", // Amber 500
-        "#EF4444", // Red 500
-        "#3B82F6", // Blue 500
-        "#8B5CF6", // Violet 500
-        "#14B8A6", // Teal 500
-        "#F43F5E", // Rose 500
-        "#22C55E", // Green 500
-        "#A855F7", // Purple 500
-        "#FB923C", // Orange 400
-        "#0EA5E9", // Sky 500
-        "#84CC16", // Lime 500
-        "#DC2626", // Red 600
-        "#6366F1", // Indigo 500
-    ];
+
 
     const { selectProps: topicsSelectProps } = useSelect<ITopic>({
         resource: "topic",
@@ -187,7 +154,7 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
 
     return (
         <Card title={
-            "Количество клиентов на дату"
+            "Количество клиентов по времени"
             //translate("dashboard.countClietsByService")
 
         }
@@ -245,23 +212,17 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
                             />
                             <Tooltip
                                 labelFormatter={(ts) => dayjs(ts as number).format("YYYY-MM-DD HH:mm")}
-                                formatter={(value: number, name: string) => {
-                                    // name — это dataKey текущей линии, т.е. строка с названием услуги
-                                    return [value, name]; // [значение, подпись серии]
-                                }}
+                                formatter={(value: number) => [value, "Количество"]}
                             />
-                            {topics.map((topic, idx) => (
-                                <Line
-                                    key={topic}
-                                    yAxisId="1"
-                                    type="monotone"
-                                    dataKey={topic}
-                                    //stroke="#8884d8"
-                                    stroke={palette[idx % palette.length]}
-                                    animationDuration={300}
-                                    dot={false}
-                                />
-                            ))}
+
+                            <Line
+                                yAxisId="1"
+                                type="monotone"
+                                dataKey="value"
+                                stroke="#4F46E5"
+                                animationDuration={300}
+                                dot={false}
+                            />
 
                             {state.refAreaLeft != null && state.refAreaRight != null ? (
                                 <ReferenceArea yAxisId="1" x1={state.refAreaLeft} x2={state.refAreaRight} strokeOpacity={0.3} />

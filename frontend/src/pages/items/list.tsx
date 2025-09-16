@@ -10,6 +10,7 @@ import { BarChartTopicsCount } from "../../components/charts/barChartTopicsCount
 import { useState } from "react";
 import { LineChartServicesCountByDaytetime } from "../../components/charts/lineChartServiceCountAtCreateDateTime";
 import { BarChartCountClosetItemsAtUser } from "../../components/charts/barChartCountClosedUser"
+import { BarChartAvgTimesByTopic } from "../../components/charts/barChartAvgTimesByTopic";
 const { RangePicker } = DatePicker;
 
 export const ItemsList = () => {
@@ -109,7 +110,8 @@ export const ItemsList = () => {
                             <BarChartTopicsCount range={range} />
                         </Col>
                         <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <LineChartServicesCountByDaytetime range={range} />
+                            <BarChartAvgTimesByTopic range={range} />
+
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>
@@ -117,9 +119,7 @@ export const ItemsList = () => {
                             <BarChartCountClosetItemsAtUser range={range} />
                         </Col>
                         <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <Card title={translate("dashboard.countClientsByDatte")}>
-
-                            </Card>
+                            <LineChartServicesCountByDaytetime range={range} />
                         </Col>
                     </Row>
                 </Col>

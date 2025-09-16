@@ -9,3 +9,12 @@ export interface ITopicCount {
     name: string;
     count_items: number
 }
+
+export interface ITimeByTopic {
+    topic: ITopic
+    avg_wait_seconds: string,
+    avg_wait_interval: string,
+    avg_service_seconds: string,
+    avg_service_interval: string,
+    count: number
+}

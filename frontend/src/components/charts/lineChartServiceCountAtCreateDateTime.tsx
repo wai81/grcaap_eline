@@ -145,7 +145,7 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
             mode="multiple"
             allowClear
             style={{ minWidth: 320, marginRight: 8 }}
-            placeholder="Выберите услуги"
+            placeholder={translate("item.dashboard.selectTopic")}
             value={selectedTopicIds}
             onChange={(vals) => setSelectedTopicIds(vals)}
             options={topicsSelectProps.options}
@@ -154,8 +154,7 @@ export const LineChartServicesCountByDaytetime = ({ range }: { range: [Dayjs, Da
 
     return (
         <Card title={
-            "Количество клиентов по времени"
-            //translate("dashboard.countClietsByService")
+            translate("item.dashboard.countClientsByTime")
 
         }
             extra={seletedServices}

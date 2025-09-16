@@ -146,6 +146,13 @@
     "titles": {
       "list": "Аналітыка"
     },
+    "dashboard": {
+      "countClientsByTopic": "Колькасць кліентаў па паслузе",
+      "avgTimesByTopic": "Сярэднія часы чакання і абслугоўвання па паслузе",
+      "countClientsAcceptedEmploee":"Колькасць прынятых кліентаў супрацоўнікам",
+      "countClientsByTime":"Колькасць кліентаў па часе",
+      "selectTopic":"Абярыце паслугу"
+    },
     "fields": {
       "client":"Кліент",
       "created_at":"Дата і час стварэння",

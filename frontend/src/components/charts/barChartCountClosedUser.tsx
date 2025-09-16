@@ -77,7 +77,7 @@ export const BarChartCountClosetItemsAtUser = ({ range }: { range: [Dayjs, Dayjs
       mode="multiple"
       allowClear
       style={{ minWidth: 320, marginRight: 8 }}
-      placeholder="Выберите услуги"
+      placeholder={translate("item.dashboard.selectTopic")}
       value={selectedTopicIds}
       onChange={(vals) => setSelectedTopicIds(vals)}
       options={topicsSelectProps.options}
@@ -85,8 +85,8 @@ export const BarChartCountClosetItemsAtUser = ({ range }: { range: [Dayjs, Dayjs
   );
 
   return (
-    <Card title={"Количесво принятых клиентов сотрудником"
-      //translate("dashboard.countClietsByService")
+    <Card title={
+      translate("item.dashboard.countClientsAcceptedEmploee")
     }
       extra={seletedServices}
     >

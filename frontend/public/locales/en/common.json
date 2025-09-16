@@ -146,6 +146,13 @@
     "titles": {
       "list": "Analytics"
     },
+    "dashboard": {
+      "countClientsByTopic": "Count of clients for the service",
+      "avgTimesByTopic": "Average waiting and service times for the service",
+      "countClientsAcceptedEmploee":"Count of clients received by an employee",
+      "countClientsByTime":"Count of clients by time",
+      "selectTopic":"Select service"
+    },
     "fields": {
       "client":"Client",
       "created_at":"Date and time of creation",

@@ -119,8 +119,8 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
     };
 
     return (
-        <Card title={"Количество клиентов по услуге"
-            // translate("dashboard.countClietsByService")
+        <Card title={
+            translate("item.dashboard.countClientsByTopic")
         }>
 
             {isLoading ? (

@@ -116,8 +116,8 @@ export const BarChartAvgTimesByTopic = ({ range }: { range: [Dayjs, Dayjs] }) =>
     };
 
     return (
-        <Card title={"Средние времена ожидания и обслуживания по услуге"
-            // translate("dashboard.countClietsByService")
+        <Card title={
+            translate("item.dashboard.avgTimesByTopic")
         }>
 
             {isLoading ? (

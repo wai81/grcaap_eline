@@ -9,8 +9,6 @@ from app.api.depend import get_db
 from app.api.v1.filter.topic import TopicFilter
 from app.schemas.topic import TopicInDB, LineTopic
 
-# from app.model.schemas import User, RegisterUser
-
 router = APIRouter()
 
 
@@ -21,19 +19,21 @@ async def get_topics(*,
                      filters: TopicFilter = FilterDepends(TopicFilter),
                      db: AsyncSession = Depends(get_db)
                      ) -> Any:
-    objects = await services.topic.get_topics_filter(db=db, filters=filters)
-    return objects
+    result = await services.topic.get_topics_filter(db=db, filters=filters)
+    return result
+
 
 @router.get("/{topic_id}",
             status_code=200,
             response_model=TopicInDB)
 async def get_topic(*, topic_id: int, db: AsyncSession = Depends(get_db)) -> TopicInDB:
-    obj = await services.topic.get_by_id(db=db, id=topic_id)
-    if not obj:
+    result = await services.topic.get_by_id(db=db, id=topic_id)
+    if not result:
         raise HTTPException(
             status_code=404, detail=f"Услуга не найдена."
         )
-    return obj
+    return result
+
 
 @router.get("/line/{topic_id}",
             status_code=200, )
@@ -41,7 +41,6 @@ async def get_line_topic(*,
                          topic_id: int,
                          db: AsyncSession = Depends(get_db)
                          ) -> LineTopic:
-
     items_count = await services.topic.get_count_items_topic(db=db, topic_id=topic_id)
 
     if items_count:

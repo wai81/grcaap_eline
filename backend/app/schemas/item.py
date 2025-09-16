@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from pydantic import BaseModel, constr, ConfigDict
 from typing import Optional
 from datetime import datetime
@@ -8,27 +10,19 @@ from app.schemas.topic import TopicInDB
 
 class ItemGroupBase(BaseModel):
     is_closed: bool
-    # created_by: constr(max_length=128)  # Строка длиной до 128 символов
-    # modified_by: Optional[constr(max_length=128)]  # может быть None
     created_at: datetime  # Дата и время создания
-    # updated_at: Optional[datetime]  # Дата и время обновления
 
 
 class ItemGroupInDB(ItemGroupBase):
     id: int  # Поле id, добавленное для представления модели
 
-    class ConfigDict:
-        from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
+    model_config = ConfigDict(from_attributes=True)  # Позволяет Pydantic работать с SQLAlchemy моделями
 
 
 class ItemBase(BaseModel):
     generated_number: constr(max_length=128)  # Строка длиной до 128 символов
-    # skip_numbers: int
-    # parent_id: Optional[int]  # может быть None
     group: ItemGroupInDB
     topic: TopicInDB
-    # service_unit_id: Optional[int]  # может быть None
-    # order_unit_id: Optional[int]  # может быть None
     created_by: constr(max_length=128)  # Строка длиной до 128 символов
     modified_by: Optional[constr(max_length=128)]  # может быть None
     created_at: datetime  # Дата и время создания
@@ -38,8 +32,7 @@ class ItemBase(BaseModel):
 class ItemInDB(ItemBase):
     id: int  # Поле id, добавленное для представления модели
 
-    class ConfigDict:
-        from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
+    model_config = ConfigDict(from_attributes=True)  # Позволяет Pydantic работать с SQLAlchemy моделями
 
 
 class ItemsStatus(BaseModel):
@@ -52,8 +45,7 @@ class ItemsStatus(BaseModel):
     modified_by: Optional[constr(max_length=128)]
     is_closed: bool
 
-    class ConfigDict:
-        from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ItemsGroupByTopic(BaseModel):
@@ -64,7 +56,7 @@ class ItemsGroupByTopic(BaseModel):
 
 
 class ItemsGroupByTopicDate(BaseModel):
-    name: str
+    # name: str
     create_at: datetime
     count: int
 
@@ -73,6 +65,17 @@ class ItemsGroupByTopicDate(BaseModel):
 
 class ItemsGroupByUserModified(BaseModel):
     modified_by: Optional[str]
+    count: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class AvgItemsWaitServiceByTopics(BaseModel):
+    topic: TopicInDB
+    avg_wait_seconds: Decimal
+    avg_wait_interval: str
+    avg_service_seconds: Decimal
+    avg_service_interval: str
     count: int
 
     model_config = ConfigDict(from_attributes=True)

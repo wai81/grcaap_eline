@@ -35,5 +35,6 @@ class TopicItemsFilter(Filter):
 
     class Constants(Filter.Constants):
         model = Topic
+
     class Config:
         populate_by_name = True

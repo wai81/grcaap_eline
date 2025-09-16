@@ -1,24 +1,14 @@
-from typing import Any, List
-
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi_filter import FilterDepends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app import services
 from app.api.depend import get_db
 from fastapi_pagination import Page
-from sqlalchemy.future import select
-from sqlalchemy import asc, func
-from fastapi_pagination.ext.async_sqlalchemy import paginate
-
-from app.api.v1.filter.item import ItemsFilter, ItemsGroupByTopicFilter
-from app.api.v1.filter.staus import StatusTypeFilter, ItemStatusTypeFilter
+from app.api.v1.filter.item import ItemsFilter
+from app.api.v1.filter.staus import StatusTypeFilter
 from app.api.v1.filter.topic import TopicItemsFilter
 from app.api.v1.filter.item_group import ItemGroupFilter
-from app.models.item import ItemGroup, Item
-from app.models.item_status import ItemStatus
-from app.models.item_staus_type import ItemStatusType
-from app.models.topic import Topic
-from app.schemas.item import ItemsStatus, ItemsGroupByTopic
+from app.schemas.item import ItemsStatus
+
 
 router = APIRouter()
 

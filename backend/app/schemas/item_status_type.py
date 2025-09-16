@@ -1,4 +1,4 @@
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, constr, ConfigDict
 
 
 class ItemStatusTypeBase(BaseModel):
@@ -8,5 +8,4 @@ class ItemStatusTypeBase(BaseModel):
 class ItemStatusTypeInDB(ItemStatusTypeBase):
     id: int  # Поле id, добавленное для представления модели
 
-    class ConfigDict:
-        from_attributes = True  # Позволяет Pydantic работать с SQLAlchemy моделями
+    model_config = ConfigDict(from_attributes=True)  # Позволяет Pydantic работать с SQLAlchemy моделями

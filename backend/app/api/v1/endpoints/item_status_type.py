@@ -16,13 +16,13 @@ router = APIRouter()
 async def get_items_status_type(*,
                                 db: AsyncSession = Depends(get_db)
                                 ) -> Any:
-    objects = await services.item_status_type.get_list(db=db)
-    return objects
+    result = await services.item_status_type.get_list(db=db)
+    return result
 
 
 @router.get("/{status_id}",
             status_code=200,
             response_model=ItemStatusTypeInDB)
 async def get_status_type(*, status_id: int, db: AsyncSession = Depends(get_db)):
-    item = await services.item_status_type.get_by_id(id=status_id, db=db)
-    return item
+    result = await services.item_status_type.get_by_id(id=status_id, db=db)
+    return result

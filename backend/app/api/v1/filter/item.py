@@ -41,7 +41,7 @@ class ItemsCustomFilter(Filter):
         populate_by_name = True
 
 
-class ItemsGroupByTopicFilter(Filter):
+class ItemsByTopicFilter(Filter):
     topic_id__in: Optional[list[int]] = Field(default=None)
     created_at__gte: Optional[datetime] = Field(alias='created_at_gte', default=None)
     created_at__lte: Optional[datetime] = Field(alias='created_at_lte', default=None)

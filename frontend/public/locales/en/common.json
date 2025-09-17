@@ -119,6 +119,7 @@
         "list": "Dashboard"
       },
       "currentTime": "Current time",
+      "clientInEline": "Count of clients in the queue for services",
     "clientsWaiting":{
       "title":"Customers expect",
       "fields":{

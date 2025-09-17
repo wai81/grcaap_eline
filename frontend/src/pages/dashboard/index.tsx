@@ -1,5 +1,5 @@
 import { List } from "@refinedev/antd";
-import { useApiUrl, useCustom } from "@refinedev/core";
+import { useApiUrl, useCustom, useTranslate } from "@refinedev/core";
 import { StatusTopis } from "../../components/staus-topics";
 import { Card, Col, Row } from "antd";
 import { WaitItems } from "../../components/wait_items";
@@ -7,9 +7,9 @@ import { HandingItems } from "../../components/handling_items";
 import { BarChartTopicsCount } from "../../components/charts/barChartTopicsCount";
 
 export const DashboardPage: React.FC = () => {
-    const API_URL = useApiUrl();
+    const translate = useTranslate();
     return (
-        <List title={false}>
+        <List title={translate("dashboard.clientInEline")}>
             <Row gutter={[16, 16]}>
                 <Col md={24}>
                     <StatusTopis />

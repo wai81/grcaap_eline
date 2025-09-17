@@ -45,7 +45,7 @@ function App() {
       {/* <GitHubBanner /> */}
       <RefineKbarProvider>
         <ColorModeContextProvider>
-          <ConfigProvider locale={ru_Ru}>
+          <ConfigProvider locale={ru_Ru} getPopupContainer={(triger) => triger?.parentElement ?? document.body}>
             <AntdApp>
               <DevtoolsProvider>
                 <Refine

@@ -119,6 +119,7 @@
       "list": "Инфопанель"
     },
     "currentTime": "Текущее время",
+    "clientInEline": "Количество клиентов в очереди по услугам",
     "clientsWaiting":{
       "title":"Клиенты ожидают",
       "fields":{

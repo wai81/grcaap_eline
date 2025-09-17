@@ -129,24 +129,21 @@ export const ItemsList = () => {
 
         >
             <Row gutter={[16, 16]}>
-                <Col md={24}>
-                    <Row gutter={[16, 16]}>
-                        <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <BarChartTopicsCount range={range} />
-                        </Col>
-                        <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <BarChartAvgTimesByTopic range={range} />
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                        <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <BarChartCountClosetItemsAtUser range={range} />
-                        </Col>
-                        <Col xl={{ span: 12 }} lg={12} md={24} sm={24} xs={24}>
-                            <LineChartServicesCountByDaytetime range={range} />
-                        </Col>
-                    </Row>
+                {/* Верхний ряд */}
+                <Col xs={24} md={24} lg={12} xl={12}>
+                    <BarChartTopicsCount range={range} />
                 </Col>
+                <Col xs={24} md={24} lg={12} xl={12}>
+                    <BarChartAvgTimesByTopic range={range} />
+                </Col>
+                {/* Нижний ряд */}
+                <Col xs={24} md={24} lg={12} xl={12}>
+                    <BarChartCountClosetItemsAtUser range={range} />
+                </Col>
+                <Col xs={24} md={24} lg={12} xl={12}>
+                    <LineChartServicesCountByDaytetime range={range} />
+                </Col>
+
                 <Col md={24}>
                     <Row gutter={[16, 16]}>
                         <Col xl={{ span: 24 }} lg={24} md={24} sm={24} xs={24}>

@@ -121,7 +121,8 @@ export const BarChartTopicsCount = ({ range }: { range: [Dayjs, Dayjs] }) => {
     return (
         <Card title={
             translate("item.dashboard.countClientsByTopic")
-        }>
+        }
+        >
 
             {isLoading ? (
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 280 }}>

@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   useGetIdentity,
   useGetLocale,
   useSetLocale,
+  useTranslate,
 } from "@refinedev/core";
 import { Layout as AntdLayout, Typography, Avatar, Space, theme, Switch, Menu, Dropdown, Button } from "antd";
 import type { RefineThemedLayoutHeaderProps } from "@refinedev/antd";
@@ -13,6 +14,8 @@ import { DownOutlined } from "@ant-design/icons";
 export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
   sticky,
 }) => {
+  const translate = useTranslate();
+  const [time, setTime] = useState(new Date());
   const { token } = theme.useToken();
   const { i18n } = useTranslation();
   const changeLocale = useSetLocale();
@@ -87,8 +90,21 @@ export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
       })),
   ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000); // обновляем каждую секунду
+
+    return () => clearInterval(interval); // очистка при размонтировании
+  }, []);
+
   return (
     <AntdLayout.Header style={headerStyles}>
+      <Space style={{ width: "100%", justifyContent: "flex-start" }} align="center">
+        <Typography.Title level={4} style={{ margin: 0 }}>
+          {translate("dashboard.currentTime")} {time.toLocaleString()}
+        </Typography.Title>
+      </Space>
       <Dropdown
         //overlay={menuLang}
         menu={{

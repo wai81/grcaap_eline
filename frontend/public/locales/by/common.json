@@ -119,6 +119,7 @@
         "list": "Інфапанэль"
       },
       "currentTime": "Час зараз",
+      "clientInEline": "Колькасць кліентаў у чарзе па паслугах",
       "clientsWaiting":{
       "title":"Кліенты чакаюць",
       "fields":{

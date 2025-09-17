@@ -51,9 +51,9 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
     //формируем строку запроса для пагинации
     if (pagination) {
-      const currentPage = pagination.current;
+      const currentPage = pagination.currentPage;
       if (currentPage !== undefined) {
-        params.append("page", pagination.current!.toString());
+        params.append("page", pagination.currentPage!.toString());
       } else {
         params.append("page", "1");
       }

@@ -1,5 +1,5 @@
-# # Multi-stage build для лучшей оптимизации
-# FROM node:18-alpine AS builder
+# Multi-stage build для лучшей оптимизации
+# FROM node:22-alpine AS builder
 
 # WORKDIR /app
 
@@ -12,7 +12,7 @@
 # RUN npm run build
 
 # # Финальный образ
-# FROM node:18-alpine AS production
+# FROM node:22-alpine AS production
 
 # WORKDIR /app
 
@@ -36,7 +36,7 @@
 # This Dockerfile uses `serve` npm package to serve the static files with node process.
 # You can find the Dockerfile for nginx in the following link:
 # https://github.com/refinedev/dockerfiles/blob/main/vite/Dockerfile.nginx
-FROM refinedev/node:18 AS base
+FROM refinedev/node:22 AS base
 
 FROM base as deps
 
@@ -69,4 +69,5 @@ COPY --from=builder /app/refine/dist ./
 
 USER refine
 
-CMD ["serve", "dist", "-s", "-l", "3000"]
+CMD ["serve"]
+#CMD ["serve", "dist", "-s", "-l", "3000"]

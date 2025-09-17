@@ -7,8 +7,7 @@ import './styles.css'
 import { CounterTopic } from "./counter";
 import { List } from "@refinedev/antd";
 
-export const StatusTopis = ({ }) => {
-    const API_URL = useApiUrl();
+export const StatusTopis = () => {
     const [time, setTime] = useState(new Date());
     const translate = useTranslate();
     const {
@@ -23,8 +22,7 @@ export const StatusTopis = ({ }) => {
         }
     } = useInfiniteList<ITopic>({
         resource: "topic",
-        config: {
-            filters: [
+        filters: [
                 {
                     field: "is_active",
                     operator: "eq",
@@ -32,12 +30,12 @@ export const StatusTopis = ({ }) => {
                 },
             ],
             pagination: {
-                pageSize: 50,
-                current: 1,
+                pageSize: 100,
+                currentPage: 1,
             },
         }
 
-    });
+    );
     const topics = listTopics?.pages.flatMap((page) => page.data) || [];
 
     useEffect(() => {

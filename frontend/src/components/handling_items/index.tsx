@@ -37,12 +37,12 @@ export const HandingItems = () => {
         },
         queryOptions: {
             refetchInterval: 5000,
-            onError: (error: HttpError) => {
-                notification.error({
-                    message: 'Ошибка при загрузке данных',
-                    description: error.message,
-                });
-            },
+            // onError: (error: HttpError) => {
+            //     notification.error({
+            //         message: 'Ошибка при загрузке данных',
+            //         description: error.message,
+            //     });
+            // },
         }
     });
 
